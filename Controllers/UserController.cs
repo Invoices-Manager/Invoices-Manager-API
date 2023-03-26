@@ -7,5 +7,13 @@ namespace Invoices_Manager_API.Controllers
     [Route("api/v01/[controller]")]
     public class UserController : ControllerBase
     {
+        private readonly ILogger<UserController> _logger;
+        private readonly DataBaseContext _db;
+
+        public UserController(ILogger<UserController> logger, DataBaseContext db)
+        {
+            _logger = logger;
+            _db = db;
+        }
     }
 }
