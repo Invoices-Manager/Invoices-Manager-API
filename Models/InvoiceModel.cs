@@ -24,7 +24,7 @@ namespace Invoices_Manager_API.Models
         public string? InvoiceNumber { get; set; }
 
         [NotMapped]
-        public string[] Tags { get; set; } = { };
+        public string[] Tags { get; set; } = Array.Empty<string>();
 
         [Column("Tags")]
         public string TagsAsString
