@@ -7,4 +7,11 @@
     <RootNamespace>Invoices_Manager_API</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="NewasdFolder\**" />
+    <Content Remove="NewasdFolder\**" />
+    <EmbeddedResource Remove="NewasdFolder\**" />
+    <None Remove="NewasdFolder\**" />
+  </ItemGroup>
+
 </Project>
