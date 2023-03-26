@@ -1,5 +1,7 @@
 ﻿using InvoicesManager.Enums;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Invoices_Manager_API.Models
 {
@@ -20,7 +22,16 @@ namespace Invoices_Manager_API.Models
         public string? DocumentType { get; set; } 
         public string? Organization { get; set; } 
         public string? InvoiceNumber { get; set; }
-        public string[]? Tags { get; set; }
+
+        [NotMapped]
+        public string[] Tags { get; set; } = { };
+
+        [Column("Tags")]
+        public string TagsAsString
+        {
+            get => string.Join(";", Tags);
+            set => Tags = value.Split(";", StringSplitOptions.RemoveEmptyEntries);
+        }
 
         [Required(ErrorMessage = "ImportanceState is missing!")]
         public ImportanceStateEnum ImportanceState { get; set; } = default!;  // { VeryImportant, Important, Neutral, Unimportant }
