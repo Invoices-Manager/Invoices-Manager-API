@@ -10,11 +10,17 @@ namespace Invoices_Manager_API.Core
 
             return new LoginModel()
             {
+                Id = user.Id,
                 Username = newLogin.Username,
                 Password = newLogin.Password,
                 LoginDate = timeStamp,
                 Token = JWTCore.GetJWT(user, timeStamp, config)
             };
+        }
+
+        internal static LoginModel LogoutUser(LoginModel newLogout, UserModel user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

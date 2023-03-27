@@ -9,6 +9,9 @@ namespace Invoices_Manager_API.Models
         [Key]
         public int Id { get; set; }
 
+        [NotMapped]
+        public int UserId { get; set; }
+
         [Required(ErrorMessage = "UserName is missing!")]
         [NotMapped]
         public string Username { get; set; } = String.Empty;

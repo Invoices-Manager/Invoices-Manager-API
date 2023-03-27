@@ -104,27 +104,37 @@ namespace Invoices_Manager_API.Controllers
             return Ok(successfulLogin);
         }
 
-        //[HttpGet]
-        //[Route("Logout")]
-        //public async Task<IActionResult> Logout([FromBody] LoginModel login)
-        //{
-        //    //check if the user exist
-        //    if (!_db.User.Any(x => x.Email == login.Email))
-        //        return NotFound($"The user with the email '{login.Email}' does not exist");
+        [HttpGet]
+        [Route("Logout")]
+        public async Task<IActionResult> Logout(int userId, string token)
+        {
+            //check if there is a token
+            if (String.IsNullOrEmpty(token))
+                return BadRequest("You have to send the Token!");
 
-        //    //get the user
-        //    var user = await _db.User.FirstOrDefaultAsync(x => x.Email == login.Email);
+            //check if there is a user id
+            if (userId == 0)
+                return BadRequest("You have to send the User ID!");
 
-        //    //check if the password is correct
-        //    if (!BCrypt.Net.BCrypt.Verify(login.Password, user.Password))
-        //        return BadRequest("The password is not correct");
+            //get the user
+            var user = await _db.User.FirstOrDefaultAsync(x => x.Id == userId);
 
-        //    //generate the token
-        //    var token = GenerateToken(user);
+            //check if the user is correct
+            if (user is null)
+                return NotFound($"The user with the user ID '{userId}' does not exist");
 
-        //    //return the token
-        //    return Ok(token);
-        //}
+            //check if this loginModel exist
+            var logout = _db.Logins.FirstOrDefault(x => x.Token == token);
+            if (logout is null)
+                return NotFound($"There is no login with the token '{token}' for the ID '{userId}'");
+
+            //delete the login
+            _db.Logins.Remove(logout);
+            await _db.SaveChangesAsync();
+
+            //return the token
+            return Ok(token);
+        }
 
 
 
