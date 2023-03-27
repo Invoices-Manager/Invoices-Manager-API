@@ -18,3 +18,4 @@ namespace Invoices_Manager_API.Models
         public DateTime LastEditDate { get; set; } = default!;
     }
 }
+    

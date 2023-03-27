@@ -15,7 +15,7 @@ if (connectionString is null)
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataBaseContext>(options =>
 {
-    options.UseMySQL(connectionString);
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
 // Create app (API)

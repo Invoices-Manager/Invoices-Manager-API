@@ -9,12 +9,13 @@ namespace Invoices_Manager_API
         {
         }
 
-        public DbSet<BackUpInfoModel> BackUpInfo { get; set; } = default!;
-        public DbSet<BackUpModel> BackUp { get; set; } = default!;
-        public DbSet<InvoiceBackUpModel> InvoiceBackUp { get; set; } = default!;
-        public DbSet<InvoiceModel> Invoice { get; set; } = default!;
-        public DbSet<NotebookModel> Notebook { get; set; } = default!;
-        public DbSet<NoteModel> Note { get; set; } = default!;
-        public DbSet<UserModel> User { get; set; } = default!;
+        public DbSet<BackUpInfoModel> BackUpInfo { get; set; }
+        public DbSet<BackUpModel> BackUp { get; set; } 
+        public DbSet<InvoiceBackUpModel> InvoiceBackUp { get; set; } 
+        public DbSet<InvoiceModel> Invoice { get; set; }
+        public DbSet<NotebookModel> Notebook { get; set; }
+        public DbSet<NoteModel> Note { get; set; } 
+        public DbSet<UserModel> User { get; set; }
     }
 }
+    

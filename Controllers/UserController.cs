@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Crypto.Generators;
 
 namespace Invoices_Manager_API.Controllers
 {
@@ -19,7 +18,55 @@ namespace Invoices_Manager_API.Controllers
             _db = db;
         }
 
-        
+       
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody] UserModel newUser)
+        {
+            //check if the id is empty
+            if (newUser.Id != 0)
+                return BadRequest("You are not allowed to set the ID! You get one assigned");
+
+            //check if salt is empty
+            if (!String.IsNullOrEmpty(newUser.Salt))
+                return BadRequest("You are not allowed to set the Salt! You get one assigned");
+
+            //check if the user exist
+            if (_db.User.Any(x => x.Username == newUser.Username))
+                return BadRequest($"The user with the username '{newUser.Username}' already exist");
+
+            //check if he has manipulated data
+            if (newUser.Invoices.Count != 0 || newUser.BackUps.Count != 0 )
+                return BadRequest("You are not allowed to set the Invoices, BackUps or Notebook!");
+
+            //get a salt for the new user
+            var newSalt = Security.PasswordHasher.GetNewSalt();
+
+            
+            NotebookModel newNotebook = new NotebookModel();
+
+            _db.Notebook.Add(newNotebook);
+            await _db.SaveChangesAsync();
+            
+
+            //create the user
+            var user = new UserModel
+            {
+                Username = newUser.Username,
+                Password = Security.PasswordHasher.HashPassword(newUser.Password, newSalt),
+                Salt = newSalt,
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+                Email = newUser.Email
+            };
+
+            //add the user to the database
+            await _db.User.AddAsync(user);
+            await _db.SaveChangesAsync();
+
+            //return the token
+            return Ok(user);
+        }
+
 
         //[HttpGet]
         //[Route("Login")]
@@ -66,35 +113,6 @@ namespace Invoices_Manager_API.Controllers
         //}
 
 
-        [HttpPost]
-        [Route("Add")]
-        public async Task<IActionResult> Add([FromBody] UserModel newUser)
-        {
-            //check if the id is empty
-            if (newUser.Id != 0)
-                return BadRequest("You are not allowed to set the ID! You get one assigned");
-
-            //check if the user exist
-            if (_db.User.Any(x => x.Username == newUser.Username))
-                return BadRequest($"The user with the username '{newUser.Username}' already exist");
-
-            //create the user
-            var user = new UserModel
-            {
-                Username = newUser.Username,
-                Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password),
-                FirstName = newUser.FirstName,
-                LastName = newUser.LastName,
-                Email = newUser.Email,
-            };
-
-            //add the user to the database
-            await _db.User.AddAsync(user);
-            await _db.SaveChangesAsync();
-
-            //return the token
-            return Ok(token);
-        }
 
         //[HttpDelete]
         //[Route("Remove")]
