@@ -58,15 +58,10 @@ namespace Invoices_Manager_API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("NotebookId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("UserModelId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("NotebookId");
 
                     b.HasIndex("UserModelId");
 
@@ -153,6 +148,29 @@ namespace Invoices_Manager_API.Migrations
                     b.ToTable("Invoice");
                 });
 
+            modelBuilder.Entity("Invoices_Manager_API.Models.LoginModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LoginDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("UserModelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserModelId");
+
+                    b.ToTable("Logins");
+                });
+
             modelBuilder.Entity("Invoices_Manager_API.Models.NoteModel", b =>
                 {
                     b.Property<int>("Id")
@@ -169,23 +187,17 @@ namespace Invoices_Manager_API.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("UserModelId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Value")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserModelId");
+
                     b.ToTable("Note");
-                });
-
-            modelBuilder.Entity("Invoices_Manager_API.Models.NotebookModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Notebook");
                 });
 
             modelBuilder.Entity("Invoices_Manager_API.Models.UserModel", b =>
@@ -206,9 +218,6 @@ namespace Invoices_Manager_API.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("NotebookId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -222,8 +231,6 @@ namespace Invoices_Manager_API.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("NotebookId");
 
                     b.ToTable("User");
                 });
@@ -241,17 +248,9 @@ namespace Invoices_Manager_API.Migrations
 
             modelBuilder.Entity("Invoices_Manager_API.Models.BackUpModel", b =>
                 {
-                    b.HasOne("Invoices_Manager_API.Models.NotebookModel", "Notebook")
-                        .WithMany()
-                        .HasForeignKey("NotebookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Invoices_Manager_API.Models.UserModel", null)
                         .WithMany("BackUps")
                         .HasForeignKey("UserModelId");
-
-                    b.Navigation("Notebook");
                 });
 
             modelBuilder.Entity("Invoices_Manager_API.Models.InvoiceBackUpModel", b =>
@@ -276,15 +275,18 @@ namespace Invoices_Manager_API.Migrations
                         .HasForeignKey("UserModelId");
                 });
 
-            modelBuilder.Entity("Invoices_Manager_API.Models.UserModel", b =>
+            modelBuilder.Entity("Invoices_Manager_API.Models.LoginModel", b =>
                 {
-                    b.HasOne("Invoices_Manager_API.Models.NotebookModel", "Notebook")
-                        .WithMany()
-                        .HasForeignKey("NotebookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Invoices_Manager_API.Models.UserModel", null)
+                        .WithMany("Logins")
+                        .HasForeignKey("UserModelId");
+                });
 
-                    b.Navigation("Notebook");
+            modelBuilder.Entity("Invoices_Manager_API.Models.NoteModel", b =>
+                {
+                    b.HasOne("Invoices_Manager_API.Models.UserModel", null)
+                        .WithMany("Notebook")
+                        .HasForeignKey("UserModelId");
                 });
 
             modelBuilder.Entity("Invoices_Manager_API.Models.BackUpModel", b =>
@@ -297,6 +299,10 @@ namespace Invoices_Manager_API.Migrations
                     b.Navigation("BackUps");
 
                     b.Navigation("Invoices");
+
+                    b.Navigation("Logins");
+
+                    b.Navigation("Notebook");
                 });
 #pragma warning restore 612, 618
         }

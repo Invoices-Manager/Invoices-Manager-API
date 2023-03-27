@@ -1,7 +1,9 @@
-﻿using Invoices_Manager_API.Models;
+﻿using Invoices_Manager_API.Core;
+using Invoices_Manager_API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace Invoices_Manager_API.Controllers
 {
@@ -11,11 +13,13 @@ namespace Invoices_Manager_API.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly DataBaseContext _db;
+        private readonly IConfiguration _config;
 
-        public UserController(ILogger<UserController> logger, DataBaseContext db)
+        public UserController(ILogger<UserController> logger, DataBaseContext db, IConfiguration config)
         {
             _logger = logger;
             _db = db;
+            _config = config;
         }
 
        
@@ -61,27 +65,44 @@ namespace Invoices_Manager_API.Controllers
         }
 
 
-        //[HttpGet]
-        //[Route("Login")]
-        //public async Task<IActionResult> Login([FromBody] LoginModel login)
-        //{
-        //    //check if the user exist
-        //    if (!_db.User.Any(x => x.Email == login.Email))
-        //        return NotFound($"The user with the email '{login.Email}' does not exist");
+        [HttpGet]
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginModel newLogin)
+        {
+            //check if token is empty
+            if (!String.IsNullOrEmpty(newLogin.Token))
+                return BadRequest("You are not allowed to set the Token! You get one assigned");
 
-        //    //get the user
-        //    var user = await _db.User.FirstOrDefaultAsync(x => x.Email == login.Email);
+            //check if the id is empty
+            if (newLogin.Id != 0)
+                return BadRequest("You are not allowed to set the ID! You get one assigned");
 
-        //    //check if the password is correct
-        //    if (!BCrypt.Net.BCrypt.Verify(login.Password, user.Password))
-        //        return BadRequest("The password is not correct");
+            //check if the date is empty
+            if (newLogin.LoginDate != DateTime.MinValue)
+                return BadRequest("You are not allowed to set the LoginDate!");
 
-        //    //generate the token
-        //    var token = GenerateToken(user);
+            //get the user
+            var user = await _db.User.FirstOrDefaultAsync(x => x.Username == newLogin.Username);
 
-        //    //return the token
-        //    return Ok(token);
-        //}
+            //check if the user exist
+            if (user is null)
+                return NotFound($"The user with the username '{newLogin.Username}' does not exist");
+
+            //check if the password is correct
+            if (!Security.PasswordHasher.VerifyPassword(newLogin.Password ,user.Password))
+                return BadRequest("The password is not correct");
+
+            //create the login
+            LoginModel successfulLogin = LoginCore.LoginUser(newLogin, user, _config);
+
+            //save the token
+            user.Logins.Add(successfulLogin);
+            await _db.Logins.AddAsync(successfulLogin);
+            await _db.SaveChangesAsync();
+
+            //return the token
+            return Ok(successfulLogin);
+        }
 
         //[HttpGet]
         //[Route("Logout")]

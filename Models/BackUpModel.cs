@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Invoices_Manager_API.Models
 {
@@ -8,6 +9,7 @@ namespace Invoices_Manager_API.Models
         public int Id { get; set; }
 
         public List<InvoiceBackUpModel> Invoices { get; set; } = default!;
-        public NotebookModel Notebook { get; set; } = default!;
+        [NotMapped]
+        public List<NoteModel> Notebook { get; set; } = default!;
     }
 }

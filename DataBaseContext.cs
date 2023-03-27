@@ -13,9 +13,9 @@ namespace Invoices_Manager_API
         public DbSet<BackUpModel> BackUp { get; set; } 
         public DbSet<InvoiceBackUpModel> InvoiceBackUp { get; set; } 
         public DbSet<InvoiceModel> Invoice { get; set; }
-        public DbSet<NotebookModel> Notebook { get; set; }
         public DbSet<NoteModel> Note { get; set; } 
         public DbSet<UserModel> User { get; set; }
+        public DbSet<LoginModel> Logins { get; set; }
     }
 }
     
