@@ -22,7 +22,6 @@ namespace Invoices_Manager_API.Controllers
             _config = config;
         }
 
-       
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] UserModel newUser)
         {
@@ -64,6 +63,33 @@ namespace Invoices_Manager_API.Controllers
             return Ok(user);
         }
 
+        //TODO ADD AUTH FILTER
+        [HttpDelete]
+        public async Task<IActionResult> Remove(int id)
+        {
+            //get user
+            var user = await _db.User
+                .Include(x => x.Invoices)
+                .Include(x => x.BackUps)
+                .Include(x => x.Notebook)
+                .Include(x => x.Logins)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            //check if the user exist
+            if (user is null)
+                return NotFound($"The user with the id '{id}' does not exist");
+            
+            //clear all data from the user before deleting
+            _db.Invoice.RemoveRange(user.Invoices);
+            _db.BackUp.RemoveRange(user.BackUps);
+            _db.Note.RemoveRange(user.Notebook);
+            _db.Logins.RemoveRange(user.Logins);
+            
+            _db.User.Remove(user);
+            await _db.SaveChangesAsync();
+            
+            return Ok(user);
+        }
 
         [HttpGet]
         [Route("Login")]
@@ -97,14 +123,13 @@ namespace Invoices_Manager_API.Controllers
 
             //save the token
             user.Logins.Add(successfulLogin);
-            await _db.Logins.AddAsync(successfulLogin);
             await _db.SaveChangesAsync();
 
             //return the token
             return Ok(successfulLogin);
         }
 
-        [HttpGet]
+        [HttpDelete]
         [Route("Logout")]
         public async Task<IActionResult> Logout(int userId, string token)
         {
@@ -135,34 +160,5 @@ namespace Invoices_Manager_API.Controllers
             //return the token
             return Ok(token);
         }
-
-
-
-        //[HttpDelete]
-        //[Route("Remove")]
-        //public async Task<IActionResult> Remove([FromBody] RegisterModel register)
-        //{
-        //    //check if the user exist
-        //    if (_db.User.Any(x => x.Email == register.Email))
-        //        return BadRequest($"The user with the email '{register.Email}' already exist");
-
-        //    //create the user
-        //    var user = new UserModel
-        //    {
-        //        Email = register.Email,
-        //        Password = BCrypt.Net.BCrypt.HashPassword(register.Password),
-        //        Role = "User"
-        //    };
-
-        //    //add the user to the database
-        //    await _db.User.AddAsync(user);
-        //    await _db.SaveChangesAsync();
-
-        //    //generate the token
-        //    var token = GenerateToken(user);
-
-        //    //return the token
-        //    return Ok(token);
-        //}
     }
 }

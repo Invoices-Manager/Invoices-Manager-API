@@ -10,7 +10,7 @@ namespace Invoices_Manager_API.Core
 
             return new LoginModel()
             {
-                Id = user.Id,
+                UserId = user.Id,
                 Username = newLogin.Username,
                 Password = newLogin.Password,
                 LoginDate = timeStamp,

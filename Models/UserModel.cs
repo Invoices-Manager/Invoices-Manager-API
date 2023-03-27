@@ -26,10 +26,11 @@ namespace Invoices_Manager_API.Models
         public string Email { get; set; } = default!;
 
         public List<NoteModel> Notebook { get; set; } = new List<NoteModel>();
-
         public List<BackUpModel> BackUps { get; set; } = new List<BackUpModel>();
-
         public List<InvoiceModel> Invoices { get; set; } = new List<InvoiceModel>();
         public List<LoginModel> Logins { get; set; } = new List<LoginModel>();
+
+
+        
     }
 }
