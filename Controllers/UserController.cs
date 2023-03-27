@@ -1,9 +1,7 @@
 ﻿using Invoices_Manager_API.Core;
 using Invoices_Manager_API.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace Invoices_Manager_API.Controllers
 {

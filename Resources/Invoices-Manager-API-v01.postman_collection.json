@@ -12,7 +12,76 @@
 		},
 		{
 			"name": "Invoice",
-			"item": []
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "GetFile",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": 1,\r\n  \"FileID\": \"ABC123\",\r\n  \"CaptureDate\": \"2022-02-28T15:00:00Z\",\r\n  \"ExhibitionDate\": \"2022-03-01T10:30:00Z\",\r\n  \"Reference\": \"Dummy reference\",\r\n  \"DocumentType\": \"Dummy document type\",\r\n  \"Organization\": \"Dummy organization\",\r\n  \"InvoiceNumber\": \"123456\",\r\n  \"Tags\": [\"tag1\", \"tag2\", \"tag3\"],\r\n  \"ImportanceState\": 1,\r\n  \"MoneyState\": 1,\r\n  \"PaidState\": 1,\r\n  \"MoneyTotal\": 100.50\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API-ENDPOINT}}/api/v01/Invoice",
+							"host": [
+								"{{API-ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Note",
@@ -20,7 +89,116 @@
 		},
 		{
 			"name": "User",
-			"item": []
+			"item": [
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"UserName\",\r\n  \"password\": \"UserPassword\",\r\n  \"firstName\": \"FirstName\",\r\n  \"lastName\": \"LastName\",\r\n  \"email\": \"email@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API-ENDPOINT}}/api/v01/User",
+							"host": [
+								"{{API-ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"UserName\",\r\n    \"password\": \"UserPassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API-ENDPOINT}}/api/v01/User/Login",
+							"host": [
+								"{{API-ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User",
+								"Login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API-ENDPOINT}}/api/v01/User/Logout?userId=1&token=eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImV4YW1wbGVhc2RfdWVyc2FkZHNzc3NlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJKb2huIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc3VybmFtZSI6IkRvZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiMjAyMy4wMy4yNyAxOToyMTozMCIsImV4cCI6MTY3OTkzNzY5MCwiaXNzIjoiSW52b2ljZU1hbmdlckFQSSIsImF1ZCI6Ikludm9pY2VNYW5nZXIifQ.frGdzChCCcmiLVeJ3lphvBrPqSZtBua1S3STHI9bqLI",
+							"host": [
+								"{{API-ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User",
+								"Logout"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1"
+								},
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImV4YW1wbGVhc2RfdWVyc2FkZHNzc3NlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJKb2huIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc3VybmFtZSI6IkRvZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiMjAyMy4wMy4yNyAxOToyMTozMCIsImV4cCI6MTY3OTkzNzY5MCwiaXNzIjoiSW52b2ljZU1hbmdlckFQSSIsImF1ZCI6Ikludm9pY2VNYW5nZXIifQ.frGdzChCCcmiLVeJ3lphvBrPqSZtBua1S3STHI9bqLI"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "ENDPOINT",
+			"value": "{{variasbleName}}"
+		},
+		{
+			"key": "API-ENDPOINT",
+			"value": "localhost:5170"
 		}
 	]
 }
