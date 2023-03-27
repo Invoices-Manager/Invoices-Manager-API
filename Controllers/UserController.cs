@@ -164,33 +164,5 @@ namespace Invoices_Manager_API.Controllers
         //    //return the token
         //    return Ok(token);
         //}
-
-        //private string GenerateToken(UserModel user)
-        //{
-        //    //create the claims
-        //    var claims = new[]
-        //    {
-        //        new Claim(ClaimTypes.Name, user.Email),
-        //        new Claim(ClaimTypes.Role, user.Role)
-        //    };
-
-        //    //create the key
-        //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("This is the secret key"));
-
-        //    //create the credentials
-        //    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        //    //create the token
-        //    var token = new JwtSecurityToken(
-        //        issuer: "InvoicesManager",
-        //        audience: "InvoicesManager",
-        //        claims: claims,
-        //        expires: DateTime.Now.AddMinutes(30),
-        //        signingCredentials: credentials
-        //    );
-
-        //    //return the token
-        //    return new JwtSecurityTokenHandler().WriteToken(token);
-        //}
     }
 }
