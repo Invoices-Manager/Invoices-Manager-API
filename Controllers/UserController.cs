@@ -41,13 +41,6 @@ namespace Invoices_Manager_API.Controllers
             //get a salt for the new user
             var newSalt = Security.PasswordHasher.GetNewSalt();
 
-            
-            NotebookModel newNotebook = new NotebookModel();
-
-            _db.Notebook.Add(newNotebook);
-            await _db.SaveChangesAsync();
-            
-
             //create the user
             var user = new UserModel
             {
