@@ -21,6 +21,6 @@ namespace Invoices_Manager_API.Models
         public string Password { get; set; } = String.Empty;
         
         public string Token { get; set; } = String.Empty;
-        public DateTime LoginDate { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

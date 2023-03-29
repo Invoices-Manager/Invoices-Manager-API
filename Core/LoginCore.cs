@@ -1,4 +1,5 @@
 ﻿using Invoices_Manager_API.Models;
+using Invoices_Manager_API.Security;
 
 namespace Invoices_Manager_API.Core
 {
@@ -14,7 +15,7 @@ namespace Invoices_Manager_API.Core
                 Username = newLogin.Username,
                 Password = newLogin.Password,
                 LoginDate = timeStamp,
-                Token = JWTCore.GetJWT(user, timeStamp, config)
+                Token = JWT.GetJWT(user, timeStamp, config)
             };
         }
 

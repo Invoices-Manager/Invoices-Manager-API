@@ -1,5 +1,6 @@
 ﻿using Invoices_Manager_API.Core;
 using Invoices_Manager_API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,7 +58,6 @@ namespace Invoices_Manager_API.Controllers
             await _db.User.AddAsync(user);
             await _db.SaveChangesAsync();
 
-
             //return the token
             return Ok(user);
         }
@@ -83,10 +83,12 @@ namespace Invoices_Manager_API.Controllers
             _db.BackUp.RemoveRange(user.BackUps);
             _db.Note.RemoveRange(user.Notebook);
             _db.Logins.RemoveRange(user.Logins);
-            
+
+            //remove the user from the database
             _db.User.Remove(user);
             await _db.SaveChangesAsync();
             
+            //return the user as ok response
             return Ok(user);
         }
 
@@ -103,7 +105,7 @@ namespace Invoices_Manager_API.Controllers
                 return BadRequest("You are not allowed to set the ID! You get one assigned");
 
             //check if the date is empty
-            if (newLogin.LoginDate != DateTime.MinValue)
+            if (newLogin.CreationDate != DateTime.MinValue)
                 return BadRequest("You are not allowed to set the LoginDate!");
 
             //get the user
