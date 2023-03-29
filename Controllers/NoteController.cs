@@ -97,9 +97,9 @@ namespace Invoices_Manager_API.Controllers
             //return the note
             return Ok(newNote);
         }
-
+        
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] NoteModel note)
+        public async Task<IActionResult> Edit([FromBody] NoteModel note)
         {
             //get the user
             var user = GetCurrentUser();
