@@ -19,11 +19,11 @@ namespace Invoices_Manager_API.Controllers
             _db = db;
         }
 
-        private UserModel? GetCurrentUser()
+        private async Task<UserModel?> GetCurrentUser()
         {
             // Get the bearer token from the header
             var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-            var user = UserCore.GetCurrentUser(_db, bearerToken);
+            var user = await UserCore.GetCurrentUser(_db, bearerToken);
             return user;
         }
 
@@ -32,7 +32,7 @@ namespace Invoices_Manager_API.Controllers
         public async Task<IActionResult> GetAll()
         {
             //get the user
-            var user = GetCurrentUser();
+            var user = await GetCurrentUser();
             if (user == null)
                 return BadRequest("The user is null");
 
@@ -47,7 +47,7 @@ namespace Invoices_Manager_API.Controllers
         public async Task<IActionResult> Get(int id)
         {
             //get the user
-            var user =  GetCurrentUser();
+            var user = await GetCurrentUser();
             if (user == null)
                 return BadRequest("The user is null");
 
@@ -70,7 +70,7 @@ namespace Invoices_Manager_API.Controllers
         public async Task<IActionResult> Add([FromBody] NoteModel newNote)
         {
             //get the user
-            var user = GetCurrentUser();
+            var user = await GetCurrentUser();
             if (user == null)
                 return BadRequest("The user is null");
 
@@ -89,7 +89,7 @@ namespace Invoices_Manager_API.Controllers
             //set the creation and edit date
             newNote.CreationDate = DateTime.Now;
             newNote.LastEditDate = DateTime.Now;
-
+            
             //add the note to the db
             user.Notebook.Add(newNote);
             await _db.SaveChangesAsync();
@@ -102,7 +102,7 @@ namespace Invoices_Manager_API.Controllers
         public async Task<IActionResult> Edit([FromBody] NoteModel note)
         {
             //get the user
-            var user = GetCurrentUser();
+            var user = await GetCurrentUser();
             if (user == null)
                 return BadRequest("The user is null");
 
@@ -141,7 +141,7 @@ namespace Invoices_Manager_API.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             //get the user
-            var user = GetCurrentUser();
+            var user = await GetCurrentUser();
             if (user == null)
                 return BadRequest("The user is null");
 

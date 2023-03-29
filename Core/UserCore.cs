@@ -9,7 +9,7 @@ namespace Invoices_Manager_API.Core
 {
     public class UserCore
     {
-        public static UserModel? GetCurrentUser(DataBaseContext _db, string bearerToken)
+        public static async Task<UserModel?> GetCurrentUser(DataBaseContext _db, string bearerToken)
         {
             //get from the bearer token the username
             //create jwt token
@@ -24,9 +24,9 @@ namespace Invoices_Manager_API.Core
                 .Include(x => x.BackUps)
                 .Include(x => x.Notebook)
                 .Include(x => x.Logins)
-                .FirstOrDefault(x => x.Username == userName); 
+                .FirstOrDefaultAsync(x => x.Username == userName);
 
-            return user;
+            return await user;
         }
     }
 }
