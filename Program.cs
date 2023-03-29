@@ -14,7 +14,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 if (connectionString is null)
     throw new Exception("Connection string is null");
 
-// Add services to the container.
+// Add services to the builder.
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataBaseContext>(options =>
 {
