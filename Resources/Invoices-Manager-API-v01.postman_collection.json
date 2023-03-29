@@ -17,7 +17,19 @@
 					"name": "GetAll",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Invoice/GetAll",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice",
+								"GetAll"
+							]
+						}
 					},
 					"response": []
 				},
@@ -25,7 +37,18 @@
 					"name": "Get",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Invoice",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice"
+							]
+						}
 					},
 					"response": []
 				},
@@ -33,15 +56,37 @@
 					"name": "GetFile",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Invoice",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Add",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Invoice",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice"
+							]
+						}
 					},
 					"response": []
 				},
@@ -60,9 +105,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{API-ENDPOINT}}/api/v01/Invoice",
+							"raw": "{{ENDPOINT}}/api/v01/Invoice",
 							"host": [
-								"{{API-ENDPOINT}}"
+								"{{ENDPOINT}}"
 							],
 							"path": [
 								"api",
@@ -76,8 +121,25 @@
 				{
 					"name": "Delete",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Invoice?Id",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": null
+								}
+							]
+						}
 					},
 					"response": []
 				}
@@ -85,7 +147,164 @@
 		},
 		{
 			"name": "Note",
-			"item": []
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Note/GetAll",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Note",
+								"GetAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Note?id=34",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Note"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Name\",\r\n    \"Value\": \"Value\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Note",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Note"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 40,\r\n    \"name\": \"Name\",\r\n    \"value\": \"Value\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Note",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Note"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Note?Id=1",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Note"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "User",
@@ -93,6 +312,9 @@
 				{
 					"name": "Add",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -105,9 +327,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{API-ENDPOINT}}/api/v01/User",
+							"raw": "{{ENDPOINT}}/api/v01/User",
 							"host": [
-								"{{API-ENDPOINT}}"
+								"{{ENDPOINT}}"
 							],
 							"path": [
 								"api",
@@ -121,8 +343,28 @@
 				{
 					"name": "Remove",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "DELETE",
-						"header": []
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/User",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User"
+							]
+						}
 					},
 					"response": []
 				},
@@ -132,6 +374,9 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -144,9 +389,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{API-ENDPOINT}}/api/v01/User/Login",
+							"raw": "{{ENDPOINT}}/api/v01/User/Login",
 							"host": [
-								"{{API-ENDPOINT}}"
+								"{{ENDPOINT}}"
 							],
 							"path": [
 								"api",
@@ -161,28 +406,27 @@
 				{
 					"name": "Logout",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{API-ENDPOINT}}/api/v01/User/Logout?userId=1&token=eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImV4YW1wbGVhc2RfdWVyc2FkZHNzc3NlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJKb2huIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc3VybmFtZSI6IkRvZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiMjAyMy4wMy4yNyAxOToyMTozMCIsImV4cCI6MTY3OTkzNzY5MCwiaXNzIjoiSW52b2ljZU1hbmdlckFQSSIsImF1ZCI6Ikludm9pY2VNYW5nZXIifQ.frGdzChCCcmiLVeJ3lphvBrPqSZtBua1S3STHI9bqLI",
+							"raw": "{{ENDPOINT}}/api/v01/User/Logout",
 							"host": [
-								"{{API-ENDPOINT}}"
+								"{{ENDPOINT}}"
 							],
 							"path": [
 								"api",
 								"v01",
 								"User",
 								"Logout"
-							],
-							"query": [
-								{
-									"key": "userId",
-									"value": "1"
-								},
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImV4YW1wbGVhc2RfdWVyc2FkZHNzc3NlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJKb2huIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc3VybmFtZSI6IkRvZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiMjAyMy4wMy4yNyAxOToyMTozMCIsImV4cCI6MTY3OTkzNzY5MCwiaXNzIjoiSW52b2ljZU1hbmdlckFQSSIsImF1ZCI6Ikludm9pY2VNYW5nZXIifQ.frGdzChCCcmiLVeJ3lphvBrPqSZtBua1S3STHI9bqLI"
-								}
 							]
 						}
 					},
@@ -191,14 +435,35 @@
 			]
 		}
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "ENDPOINT",
-			"value": "{{variasbleName}}"
+			"value": "localhost:5170"
 		},
 		{
-			"key": "API-ENDPOINT",
-			"value": "localhost:5170"
+			"key": "BEARERTOKEN",
+			"value": "",
+			"type": "string"
 		}
 	]
 }
