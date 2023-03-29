@@ -1,7 +1,6 @@
 ﻿using Invoices_Manager_API.Core;
 using Invoices_Manager_API.Filters;
 using Invoices_Manager_API.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -66,19 +65,15 @@ namespace Invoices_Manager_API.Controllers
         //TODO ADD AUTH FILTER
         [TypeFilter(typeof(AuthFilter))]
         [HttpDelete]
-        public async Task<IActionResult> Remove(int id)
+        public async Task<IActionResult> Remove()
         {
-            //get user
-            var user = await _db.User
-                .Include(x => x.Invoices)
-                .Include(x => x.BackUps)
-                .Include(x => x.Notebook)
-                .Include(x => x.Logins)
-                .FirstOrDefaultAsync(x => x.Id == id);
+            // Get the bearer token from the header
+            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+            var user = UserCore.GetCurrentUser(_db, bearerToken);
 
             //check if the user exist
             if (user is null)
-                return NotFound($"The user with the id '{id}' does not exist");
+                return NotFound($"The user does not exist");
             
             //clear all data from the user before deleting
             _db.Invoice.RemoveRange(user.Invoices);
