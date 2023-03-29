@@ -35,7 +35,7 @@ namespace Invoices_Manager_API.Filters
             }
 
             //check if this bearerToken has not expired
-            if (Security.JWTCore.CheckIfExpired(bearerToken))
+            if (Security.JWT.CheckIfExpired(bearerToken))
             {
                 //return a 401 with a message that the token is expired
                 context.Result = new UnauthorizedObjectResult("Your is bearerToken expired! Get a new one!");
