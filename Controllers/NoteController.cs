@@ -124,8 +124,8 @@ namespace Invoices_Manager_API.Controllers
             // Check if the model was found
             if (index >= 0)
             {
-                user.Notebook[index].Name = note.Name;
-                user.Notebook[index].Value = note.Value;
+                user.Notebook[index].Name = note.Name == null ? user.Notebook[index].Name : note.Name;
+                user.Notebook[index].Value = note.Value == null ? user.Notebook[index].Value : note.Value;
                 user.Notebook[index].LastEditDate = DateTime.Now;
             }
 
