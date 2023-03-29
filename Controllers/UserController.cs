@@ -57,6 +57,7 @@ namespace Invoices_Manager_API.Controllers
             await _db.User.AddAsync(user);
             await _db.SaveChangesAsync();
 
+
             //return the token
             return Ok(user);
         }
