@@ -1,9 +1,7 @@
 ﻿using Invoices_Manager_API.Core;
 using Invoices_Manager_API.Filters;
 using Invoices_Manager_API.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Invoices_Manager_API.Controllers
 {
@@ -117,7 +115,7 @@ namespace Invoices_Manager_API.Controllers
                 return BadRequest("The note is not valid");
 
             //check if the note exist
-            if (user.Notebook.Any(x => x.Id == note.Id))
+            if (!user.Notebook.Any(x => x.Id == note.Id))
                 return NotFound($"The note with the id '{note.Id}' does not exist");
 
             //update the note
@@ -130,10 +128,12 @@ namespace Invoices_Manager_API.Controllers
                 user.Notebook[index].Value = note.Value;
                 user.Notebook[index].LastEditDate = DateTime.Now;
             }
+
+            //saves the edit to the db
             await _db.SaveChangesAsync();
 
             //return the note
-            return Ok(note);
+            return Ok(user.Notebook[index]);
         }
 
 
@@ -150,14 +150,20 @@ namespace Invoices_Manager_API.Controllers
                 return BadRequest("The id is not valid");
 
             //check if the note exist
-            if (!_db.Note.Any(x => x.Id == id))
+            if (!user.Notebook.Any(x => x.Id == id))
                 return NotFound($"The note with the id '{id}' does not exist");
 
             //get the note
-            var note = await _db.Note.FirstOrDefaultAsync(x => x.Id == id);
+            var note = user.Notebook.Find(x => x.Id == id);
 
-            //delete the note
-            _db.Note.Remove(note);
+            //check the note
+            if (note is null)
+                return BadRequest("The note is null");
+
+            //remove the note
+            user.Notebook.Remove(note);
+
+            //saves the changes to the db
             await _db.SaveChangesAsync();
 
             //return the note
