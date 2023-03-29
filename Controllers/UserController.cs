@@ -62,7 +62,6 @@ namespace Invoices_Manager_API.Controllers
             return Ok(user);
         }
 
-        //TODO ADD AUTH FILTER
         [TypeFilter(typeof(AuthFilter))]
         [HttpDelete]
         public async Task<IActionResult> Remove()
@@ -89,8 +88,8 @@ namespace Invoices_Manager_API.Controllers
             return Ok(user);
         }
 
-        [HttpGet]
         [Route("Login")]
+        [HttpGet]
         public async Task<IActionResult> Login([FromBody] LoginModel newLogin)
         {
             //check if token is empty
@@ -127,36 +126,30 @@ namespace Invoices_Manager_API.Controllers
             return Ok(successfulLogin);
         }
 
-        [HttpDelete]
+        [TypeFilter(typeof(AuthFilter))]
         [Route("Logout")]
-        public async Task<IActionResult> Logout(int userId, string token)
+        [HttpDelete]
+        public async Task<IActionResult> Logout()
         {
-            //check if there is a token
-            if (String.IsNullOrEmpty(token))
-                return BadRequest("You have to send the Token!");
-
-            //check if there is a user id
-            if (userId == 0)
-                return BadRequest("You have to send the User ID!");
-
-            //get the user
-            var user = await _db.User.FirstOrDefaultAsync(x => x.Id == userId);
+            // Get the bearer token from the header
+            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+            var user = UserCore.GetCurrentUser(_db, bearerToken);
 
             //check if the user is correct
             if (user is null)
-                return NotFound($"The user with the user ID '{userId}' does not exist");
+                return NotFound($"The user does not exist");
 
             //check if this loginModel exist
-            var logout = _db.Logins.FirstOrDefault(x => x.Token == token);
+            var logout = _db.Logins.FirstOrDefault(x => x.Token == bearerToken);
             if (logout is null)
-                return NotFound($"There is no login with the token '{token}' for the ID '{userId}'");
+                return NotFound($"There is no login with the token '{bearerToken}'");
 
             //delete the login
             _db.Logins.Remove(logout);
             await _db.SaveChangesAsync();
 
             //return the token
-            return Ok(token);
+            return Ok();
         }
     }
 }
