@@ -41,10 +41,10 @@ namespace Invoices_Manager_API.Security
                 var token = new JwtSecurityToken(jwtEncodedString: jwt);
 
                 //get the expiry from the token
-                string expiry = token.Claims.First(c => c.Type == "expiry").Value;
+                string expiry = token.Claims.First(c => c.Type == "exp").Value;
 
                 //check if the value is valid
-                if (!string.IsNullOrEmpty(expiry))
+                if (string.IsNullOrEmpty(expiry))
                     return true;
 
                 //set the "expiredOn" timestamp

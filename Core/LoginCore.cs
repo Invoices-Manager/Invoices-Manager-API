@@ -14,7 +14,7 @@ namespace Invoices_Manager_API.Core
                 UserId = user.Id,
                 Username = newLogin.Username,
                 Password = newLogin.Password,
-                LoginDate = timeStamp,
+                CreationDate = timeStamp,
                 Token = JWT.GetJWT(user, timeStamp, config)
             };
         }

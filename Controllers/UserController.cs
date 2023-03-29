@@ -1,4 +1,5 @@
 ﻿using Invoices_Manager_API.Core;
+using Invoices_Manager_API.Filters;
 using Invoices_Manager_API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -63,6 +64,7 @@ namespace Invoices_Manager_API.Controllers
         }
 
         //TODO ADD AUTH FILTER
+        [TypeFilter(typeof(AuthFilter))]
         [HttpDelete]
         public async Task<IActionResult> Remove(int id)
         {

@@ -28,7 +28,7 @@ namespace Invoices_Manager_API.Filters
             var bearerToken = potentialBearerToken.FirstOrDefault();
 
             //check if this bearerToken is in the db
-            if (_db.Logins.Any(x => x.Token == bearerToken))
+            if (!_db.Logins.Any(x => x.Token == bearerToken))
             {
                 context.Result = new UnauthorizedObjectResult("You bearerToken is not valid");
                 return;
