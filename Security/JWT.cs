@@ -19,14 +19,14 @@ namespace Invoices_Manager_API.Security
                 new Claim(ClaimTypes.NameIdentifier, user.Username),
                 new Claim(ClaimTypes.Name, user.FirstName),
                 new Claim(ClaimTypes.Surname, user.LastName),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("ExpiresOn", DateTime.Now.AddMinutes(Convert.ToDouble(config["JwtKeys:Expiration"])).ToString("yyyy-MM-dd HH:mm:ss"))
             };
 
             var JwtToken = new JwtSecurityToken(
                 config["JwtKeys:Issuer"],
                 config["JwtKeys:Audience"],
                 Claims,
-                expires: timeStamp.AddMinutes(Convert.ToDouble(config["JwtKeys:Expiration"])),
                 signingCredentials: Credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(JwtToken);
@@ -40,19 +40,17 @@ namespace Invoices_Manager_API.Security
                 var token = new JwtSecurityToken(jwtEncodedString: jwt);
 
                 //get the expiry from the token
-                string expiry = token.Claims.First(c => c.Type == "exp").Value;
+                string expiry = token.Claims.First(c => c.Type == "ExpiresOn").Value;
 
                 //check if the value is valid
                 if (string.IsNullOrEmpty(expiry))
                     return true;
 
                 //set the "expiredOn" timestamp
-                long unixTime = Convert.ToInt64(expiry);
-                DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(unixTime);
-                DateTime dateTime = dateTimeOffset.UtcDateTime;
+                DateTime dateTime = DateTime.Parse(expiry);
 
                 //check if it is already expired
-                if (dateTime > DateTime.Now)
+                if (dateTime < DateTime.Now)
                     return true;
 
                 //if the expiry is lower than DateTime.Now
