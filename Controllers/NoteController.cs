@@ -95,7 +95,7 @@ namespace Invoices_Manager_API.Controllers
             await _db.SaveChangesAsync();
 
             //return the note
-            return Ok(newNote);
+            return CreatedAtAction(nameof(Get), new { id = newNote.Id }, newNote);
         }
         
         [HttpPut]
