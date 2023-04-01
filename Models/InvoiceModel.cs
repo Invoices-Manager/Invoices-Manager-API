@@ -10,8 +10,7 @@ namespace Invoices_Manager_API.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "FileID is missing!")]
-        public string FileID { get; set; } = default!;
+        public string FileID { get; set; } = String.Empty;
 
         public DateTime CaptureDate { get; set; } = default!;
 

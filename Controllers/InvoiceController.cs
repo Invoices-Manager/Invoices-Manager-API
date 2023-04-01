@@ -1,6 +1,7 @@
 ﻿using Invoices_Manager_API.Core;
 using Invoices_Manager_API.Filters;
 using Invoices_Manager_API.Models;
+using InvoicesManager.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Invoices_Manager_API.Controllers
@@ -67,7 +68,7 @@ namespace Invoices_Manager_API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] InvoiceModel newInvoice, IFormFile invoiceFile)
+        public async Task<IActionResult> Add([FromBody] InvoiceModel newInvoice)
         {
             //get the user
             var user = await GetCurrentUser();
@@ -86,32 +87,19 @@ namespace Invoices_Manager_API.Controllers
             if (newInvoice.Id != 0)
                 return BadRequest("You are not allowed to set the Id! You get one assigned");
 
-            //check if a file was uploaded
-            if (invoiceFile == null || invoiceFile.Length == 0)
-                return BadRequest("No file has been uploaded.");
+            //check if the user already set an file id
+            if (!String.IsNullOrEmpty(newInvoice.FileID))
+                return BadRequest("You are not allowed to set the File Id!");
 
-            //check if the file is a pdf
-            if (Path.GetExtension(invoiceFile.FileName) != ".pdf")
-                return BadRequest("The uploaded file must be a PDF file.");
+            //check if the enums are valid
+            if (!Enum.IsDefined(typeof(ImportanceStateEnum), newInvoice.ImportanceState))
+                return BadRequest("The ImportanceState enum is illegal");
 
-            //check if the file is larger than 32mb
-            const int MAXFILESIZE = 32 * 1024 * 1024; // 32 MB
-            if (invoiceFile.Length > MAXFILESIZE)
-                return BadRequest($"The maximum file size is {MAXFILESIZE / 1024 / 1024} MB.");
+            if (!Enum.IsDefined(typeof(MoneyStateEnum), newInvoice.MoneyState))
+                return BadRequest("The MoneyState enum is illegal");
 
-            //save the file into the temp
-            string tempFilePath = Path.GetTempFileName();
-            using (var stream = new FileStream(tempFilePath, FileMode.Create))
-                invoiceFile.CopyTo(stream);
-
-            //save the file to the file system
-            await Task.Run(() => { FileCore.SaveFile(tempFilePath, user); });
-
-            //get md5 hash from file and set it as file id
-            string? md5Hash = Security.FileHasher.GetMd5Hash(tempFilePath);
-            if (md5Hash is null)
-                return BadRequest("Something is wrong with your file");
-            newInvoice.FileID = md5Hash;
+            if (!Enum.IsDefined(typeof(PaidStateEnum), newInvoice.PaidState))
+                return BadRequest("The PaidState enum is illegal");
 
             //set the creation date
             newInvoice.CaptureDate = DateTime.Now;
