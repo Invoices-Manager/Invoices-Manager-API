@@ -9,6 +9,8 @@ namespace Invoices_Manager_API.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Username is missing!")]
+        [MaxLength(20, ErrorMessage = "Username must be at most 20 characters long!")]
+        [RegularExpression(@"^^[a-zA-Z0-9_]+$", ErrorMessage = "Username must be alphanumeric! (allowed are underscore characters '_')")]
         public string Username { get; set; } = default!;
 
         [Required(ErrorMessage = "Password is missing!")]
