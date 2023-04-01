@@ -124,6 +124,10 @@ namespace Invoices_Manager_API.Controllers
             if (editInvoice == null)
                 return BadRequest("The invoice is null");
 
+            //check if the user provide a id
+            if (editInvoice.Id == 0)
+                return BadRequest("You must provide an ID whose entry you want to edit");
+
             //check if the invoices is valid
             if (!ModelState.IsValid)
                 return BadRequest("The invoice is not valid");
@@ -148,7 +152,7 @@ namespace Invoices_Manager_API.Controllers
             await _db.SaveChangesAsync();
 
             //return the invoices
-            return Ok(user.Invoices[index]);
+            return Ok(editInvoice);
         }
 
         [HttpDelete]
