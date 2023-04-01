@@ -4,7 +4,6 @@
     {
         Paid,
         Received,
-        NoInvoice,
-        FilterPlaceholder
+        NoInvoice
     }
 }

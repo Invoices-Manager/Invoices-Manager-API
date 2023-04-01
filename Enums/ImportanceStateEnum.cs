@@ -5,7 +5,6 @@
         VeryImportant,
         Important,
         Neutral,
-        Unimportant,
-        FilterPlaceholder
+        Unimportant
     }
 }

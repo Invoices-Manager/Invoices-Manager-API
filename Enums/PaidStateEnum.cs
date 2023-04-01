@@ -4,7 +4,6 @@
     {
         Paid,
         Unpaid,
-        NoInvoice,
-        FilterPlaceholder
+        NoInvoice
     }
 }
