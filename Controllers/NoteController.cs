@@ -136,7 +136,6 @@ namespace Invoices_Manager_API.Controllers
             return Ok(user.Notebook[index]);
         }
 
-
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {

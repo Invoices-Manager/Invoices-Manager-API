@@ -105,15 +105,35 @@ namespace Invoices_Manager_API.Controllers
                 return BadRequest("You are not allowed to set the LoginDate!");
 
             //get the user
-            var user = await _db.User.FirstOrDefaultAsync(x => x.Username == newLogin.Username);
+            var user = await _db.User
+                .Include(x => x.Logins)
+                .FirstOrDefaultAsync(x => x.Username == newLogin.Username);
 
             //check if the user exist
             if (user is null)
                 return NotFound($"The user with the username '{newLogin.Username}' does not exist");
 
+            //check if the user is safety locked
+            if (user.IsBlocked)
+                return BadRequest($"The user with the username '{newLogin.Username}' is locked, because the password would be entered incorrectly three times in a row. Please contact the admin");
+
             //check if the password is correct
-            if (!Security.PasswordHasher.VerifyPassword(newLogin.Password ,user.Password))
+            if (!Security.PasswordHasher.VerifyPassword(newLogin.Password, user.Password))
+            {
+                //increase the incorrect login attempt counter
+                user.IncorrectLoginAttempts++;
+
+                //check if the user is blocked, if yes then delete all login tokens
+                if (user.IncorrectLoginAttempts >= 3)
+                    _db.Logins.RemoveRange(user.Logins);
+
+                await _db.SaveChangesAsync();
+                
                 return BadRequest("The password is not correct");
+            }
+
+            //set the incorrect login attempt counter to 0
+            user.IncorrectLoginAttempts = 0;
 
             //create the login
             LoginModel successfulLogin = LoginCore.LoginUser(newLogin, user, _config);

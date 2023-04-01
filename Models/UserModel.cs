@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Invoices_Manager_API.Models
 {
@@ -24,6 +25,11 @@ namespace Invoices_Manager_API.Models
         [Required(ErrorMessage = "Email is missing!")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; } = default!;
+
+        [NotMapped]
+        public bool IsBlocked => IncorrectLoginAttempts >= 3;
+
+        public int IncorrectLoginAttempts { get; set; } = 0;
 
         public List<NoteModel> Notebook { get; set; } = new List<NoteModel>();
         public List<BackUpModel> BackUps { get; set; } = new List<BackUpModel>();
