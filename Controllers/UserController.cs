@@ -21,15 +21,6 @@ namespace Invoices_Manager_API.Controllers
             _config = config;
         }
 
-        public async Task<IActionResult> Get(int id)
-        {
-            //get the user
-            var user = await _db.User.FirstOrDefaultAsync(x => x.Id == id);
-
-            //return the user
-            return Ok(user);
-        }
-
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] UserModel newUser)
         {
@@ -68,7 +59,7 @@ namespace Invoices_Manager_API.Controllers
             await _db.SaveChangesAsync();
 
             //return the token
-            return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
+            return Ok(user);
         }
 
         [TypeFilter(typeof(AuthFilter))]
