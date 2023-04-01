@@ -13,7 +13,6 @@ namespace Invoices_Manager_API.Models
         [Required(ErrorMessage = "FileID is missing!")]
         public string FileID { get; set; } = default!;
 
-        [Required(ErrorMessage = "CaptureDate is missing!")]
         public DateTime CaptureDate { get; set; } = default!;
 
         [Required(ErrorMessage = "ExhibitionDate is missing!")]

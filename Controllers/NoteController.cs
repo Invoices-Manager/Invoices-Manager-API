@@ -160,7 +160,7 @@ namespace Invoices_Manager_API.Controllers
                 return BadRequest("The note is null");
 
             //remove the note
-            user.Notebook.Remove(note);
+            _db.Note.Remove(note);
 
             //saves the changes to the db
             await _db.SaveChangesAsync();
