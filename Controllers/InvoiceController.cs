@@ -3,6 +3,8 @@ using Invoices_Manager_API.Filters;
 using Invoices_Manager_API.Models;
 using InvoicesManager.Enums;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using System.IO;
 
 namespace Invoices_Manager_API.Controllers
 {
@@ -68,12 +70,28 @@ namespace Invoices_Manager_API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] InvoiceModel newInvoice)
+        public async Task<IActionResult> Add([FromBody] InvoiceModel newInvoice, [FromForm] IFormFile invoiceFile)
         {
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
                 return BadRequest("The user is null");
+
+            //check if the file is there
+            if (invoiceFile == null || invoiceFile.Length == 0)
+                return BadRequest("The file is null");
+
+            //check if there is ONE file
+            if (invoiceFile.Length > 1)
+                return BadRequest("You can only upload ONE file");
+
+            //check if this file is a *.pdf file
+            if (Path.GetExtension(invoiceFile.FileName) != ".pdf")
+                return BadRequest("The file is not a pdf file");
+
+            //check if the file is not bigger than 32MB
+            if (invoiceFile.Length > 32 * 1024 * 1024)
+                return BadRequest("The file is bigger than 32MB");
 
             //check if the invoice is null
             if (newInvoice == null)
@@ -101,13 +119,44 @@ namespace Invoices_Manager_API.Controllers
             if (!Enum.IsDefined(typeof(PaidStateEnum), newInvoice.PaidState))
                 return BadRequest("The PaidState enum is illegal");
 
+            
+            //generate a new file in the temp folder
+            var tempFilePath = Path.GetTempFileName();
+            
+            //save the file in the temp folder
+            using (var stream = new FileStream(tempFilePath, FileMode.Create))
+                await invoiceFile.CopyToAsync(stream);
+
+            //get the file id
+            var fileId = Security.FileHasher.GetMd5Hash(tempFilePath);
+
+            //check if the file id already exist
+            if (user.Invoices.Any(x => x.FileID == fileId))
+                return BadRequest("The file already exist!");
+
+            //check if the file id is valid
+            if (String.IsNullOrEmpty(fileId))
+                return BadRequest("The file is corrupt!");
+
+            //generate a new path for the file (user get a folder + file name => fileId.pdf)
+            var newFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", user.Username.ToLower());
+
+            //create the folder (if they not exist)
+            Directory.CreateDirectory(newFilePath);
+
+            //move the file to the new path
+            System.IO.File.Move(tempFilePath, Path.Combine(tempFilePath, fileId + ".pdf"));
+
             //set the creation date
             newInvoice.CaptureDate = DateTime.Now;
+
+            //set the file id
+            newInvoice.FileID = fileId;
 
             //add the invoices to the db
             user.Invoices.Add(newInvoice);
             await _db.SaveChangesAsync();
-
+            
             //return the invoices
             return CreatedAtAction(nameof(Get), new { id = newInvoice.Id }, newInvoice);
         }
