@@ -21,6 +21,27 @@ namespace Invoices_Manager_API.Controllers
             _config = config;
         }
 
+        [TypeFilter(typeof(AuthFilter))]
+        [HttpGet("WhoAmI")]
+        public async Task<IActionResult> WhoAmI()
+        {
+            // Get the bearer token from the header
+            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+            var user = await UserCore.GetCurrentUser(_db, bearerToken);
+
+            //check if the user exist
+            if (user is null)
+                return NotFound($"The user does not exist");
+
+            //censor => id, password, salt
+            user.Id = 0;
+            user.Password = "********************************";
+            user.Salt = "********************************";
+            
+            //return the user as ok response
+            return Ok(user);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] UserModel newUser)
         {
