@@ -1,5 +1,6 @@
 using Invoices_Manager_API;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -16,6 +17,10 @@ if (connectionString is null)
 
 // Add services to the builder.
 builder.Services.AddControllers();
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 33554432; // 32 MB
+});
 builder.Services.AddDbContext<DataBaseContext>(options =>
 {
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
@@ -41,6 +46,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseRouting();
 app.MapControllers();
 
 // Run app

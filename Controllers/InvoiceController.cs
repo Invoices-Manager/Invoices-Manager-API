@@ -70,27 +70,28 @@ namespace Invoices_Manager_API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] InvoiceModel newInvoice, [FromForm] IFormFile invoiceFile)
+        public async Task<IActionResult> Add([FromBody] InvoiceWrapperModel wrapper)
         {
+            InvoiceModel newInvoice = wrapper.NewInvoice;
+            string invoiceFileBase64 = wrapper.InvoiceFileBase64;
+
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
                 return BadRequest("The user is null");
 
             //check if the file is there
-            if (invoiceFile == null || invoiceFile.Length == 0)
+            if (String.IsNullOrEmpty(invoiceFileBase64))
                 return BadRequest("The file is null");
 
-            //check if there is ONE file
-            if (invoiceFile.Length > 1)
-                return BadRequest("You can only upload ONE file");
-
-            //check if this file is a *.pdf file
-            if (Path.GetExtension(invoiceFile.FileName) != ".pdf")
-                return BadRequest("The file is not a pdf file");
+            //save file in temp folder
+            var tempFilePath = Path.GetTempFileName();
+            var bytes = Convert.FromBase64String(invoiceFileBase64);
+            System.IO.File.WriteAllBytes(tempFilePath, bytes);
+            FileInfo invoiceInfo = new FileInfo(tempFilePath);
 
             //check if the file is not bigger than 32MB
-            if (invoiceFile.Length > 32 * 1024 * 1024)
+            if (invoiceInfo.Length > 32 * 1024 * 1024)
                 return BadRequest("The file is bigger than 32MB");
 
             //check if the invoice is null
@@ -119,14 +120,6 @@ namespace Invoices_Manager_API.Controllers
             if (!Enum.IsDefined(typeof(PaidStateEnum), newInvoice.PaidState))
                 return BadRequest("The PaidState enum is illegal");
 
-            
-            //generate a new file in the temp folder
-            var tempFilePath = Path.GetTempFileName();
-            
-            //save the file in the temp folder
-            using (var stream = new FileStream(tempFilePath, FileMode.Create))
-                await invoiceFile.CopyToAsync(stream);
-
             //get the file id
             var fileId = Security.FileHasher.GetMd5Hash(tempFilePath);
 
@@ -145,7 +138,7 @@ namespace Invoices_Manager_API.Controllers
             Directory.CreateDirectory(newFilePath);
 
             //move the file to the new path
-            System.IO.File.Move(tempFilePath, Path.Combine(tempFilePath, fileId + ".pdf"));
+            System.IO.File.Move(tempFilePath, Path.Combine(newFilePath, fileId + ".pdf"));
 
             //set the creation date
             newInvoice.CaptureDate = DateTime.Now;
