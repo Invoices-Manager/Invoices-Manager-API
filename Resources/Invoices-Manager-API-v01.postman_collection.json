@@ -17,7 +17,13 @@
 					"name": "GetAll",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{ENDPOINT}}/api/v01/Invoice/GetAll",
 							"host": [
@@ -37,9 +43,15 @@
 					"name": "Get",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{ENDPOINT}}/api/v01/Invoice",
+							"raw": "{{ENDPOINT}}/api/v01/Invoice?id=34",
 							"host": [
 								"{{ENDPOINT}}"
 							],
@@ -47,25 +59,12 @@
 								"api",
 								"v01",
 								"Invoice"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetFile",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{ENDPOINT}}/api/v01/Invoice",
-							"host": [
-								"{{ENDPOINT}}"
 							],
-							"path": [
-								"api",
-								"v01",
-								"Invoice"
+							"query": [
+								{
+									"key": "id",
+									"value": "34"
+								}
 							]
 						}
 					},
@@ -73,9 +72,44 @@
 				},
 				{
 					"name": "Add",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "newInvoice",
+									"value": "{\n    \"ExhibitionDate\": \"2023-03-01T00:00:00Z\",\n    \"Reference\": \"REF12ss34\",\n    \"DocumentType\": \"Invoice\",\n    \"Organization\": \"Company\",\n    \"InvoiceNumber\": \"INV1234\",\n    \"Tags\": [\n        \"important\",\n        \"urgent\"\n    ],\n    \"ImportanceState\": 1,\n    \"MoneyState\": 2,\n    \"PaidState\": 0,\n    \"MoneyTotal\": 100.00\n}",
+									"type": "text"
+								},
+								{
+									"key": "invoiceFile",
+									"type": "file",
+									"src": "/C:/Users/Schecher_1/Desktop/32kb.pdf"
+								}
+							]
+						},
 						"url": {
 							"raw": "{{ENDPOINT}}/api/v01/Invoice",
 							"host": [
@@ -94,10 +128,16 @@
 					"name": "Edit",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Id\": 1,\r\n  \"FileID\": \"ABC123\",\r\n  \"CaptureDate\": \"2022-02-28T15:00:00Z\",\r\n  \"ExhibitionDate\": \"2022-03-01T10:30:00Z\",\r\n  \"Reference\": \"Dummy reference\",\r\n  \"DocumentType\": \"Dummy document type\",\r\n  \"Organization\": \"Dummy organization\",\r\n  \"InvoiceNumber\": \"123456\",\r\n  \"Tags\": [\"tag1\", \"tag2\", \"tag3\"],\r\n  \"ImportanceState\": 1,\r\n  \"MoneyState\": 1,\r\n  \"PaidState\": 1,\r\n  \"MoneyTotal\": 100.50\r\n}\r\n",
+							"raw": "{\r\n    \"id\": 72,\r\n    \"name\": \"Name\",\r\n    \"value\": \"Value\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -122,9 +162,15 @@
 					"name": "Delete",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{ENDPOINT}}/api/v01/Invoice?Id",
+							"raw": "{{ENDPOINT}}/api/v01/Invoice?Id=1",
 							"host": [
 								"{{ENDPOINT}}"
 							],
@@ -136,7 +182,7 @@
 							"query": [
 								{
 									"key": "Id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -252,7 +298,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 40,\r\n    \"name\": \"Name\",\r\n    \"value\": \"Value\"\r\n}",
+							"raw": "{\r\n    \"id\": 72,\r\n    \"name\": \"Name\",\r\n    \"value\": \"Value\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -309,6 +355,41 @@
 		{
 			"name": "User",
 			"item": [
+				{
+					"name": "WhoAmI",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"UserName\",\r\n    \"password\": \"UserPassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/User/Login",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User",
+								"Login"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Add",
 					"request": {
@@ -431,6 +512,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Logout Everywhere",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/User/Logout",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User",
+								"Logout"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
@@ -462,7 +572,7 @@
 		},
 		{
 			"key": "BEARERTOKEN",
-			"value": "",
+			"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IlVzZXJOYW1lIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkZpcnN0TmFtZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL3N1cm5hbWUiOiJMYXN0TmFtZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImVtYWlsQGV4YW1wbGUuY29tIiwiRXhwaXJlc09uIjoiMjAyMy0wNC0xNCAyMzoxMToyNyIsImlzcyI6Ikludm9pY2VNYW5nZXJBUEkiLCJhdWQiOiJJbnZvaWNlTWFuZ2VyIn0.abY2nYfNcDHAccN50bjm6zbnfWR422cLp1umMxBkSpc",
 			"type": "string"
 		}
 	]
