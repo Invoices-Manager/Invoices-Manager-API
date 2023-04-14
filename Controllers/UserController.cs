@@ -192,5 +192,26 @@ namespace Invoices_Manager_API.Controllers
             //return the token
             return Ok();
         }
+
+        [TypeFilter(typeof(AuthFilter))]
+        [Route("LogoutEverywhere")]
+        [HttpDelete]
+        public async Task<IActionResult> LogoutEverywhere()
+        {
+            // Get the bearer token from the header
+            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+            var user = await UserCore.GetCurrentUser(_db, bearerToken);
+
+            //check if the user is correct
+            if (user is null)
+                return NotFound($"The user does not exist");
+
+            //delete the login
+            _db.Logins.RemoveRange(user.Logins);
+            await _db.SaveChangesAsync();
+
+            //return the token
+            return Ok();
+        }
     }
 }
