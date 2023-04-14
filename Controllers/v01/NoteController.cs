@@ -3,7 +3,7 @@ using Invoices_Manager_API.Filters;
 using Invoices_Manager_API.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Invoices_Manager_API.Controllers
+namespace Invoices_Manager_API.Controllers.v01
 {
     [ApiController]
     [TypeFilter(typeof(AuthFilter))]
@@ -38,7 +38,7 @@ namespace Invoices_Manager_API.Controllers
 
             //get all notes
             var notes = user.Notebook.ToList();
-            
+
             //return all notes
             return Ok(notes);
         }
@@ -89,7 +89,7 @@ namespace Invoices_Manager_API.Controllers
             //set the creation and edit date
             newNote.CreationDate = DateTime.Now;
             newNote.LastEditDate = DateTime.Now;
-            
+
             //add the note to the db
             user.Notebook.Add(newNote);
             await _db.SaveChangesAsync();
@@ -97,7 +97,7 @@ namespace Invoices_Manager_API.Controllers
             //return the note
             return CreatedAtAction(nameof(Get), new { id = newNote.Id }, newNote);
         }
-        
+
         [HttpPut]
         public async Task<IActionResult> Edit([FromBody] NoteModel note)
         {

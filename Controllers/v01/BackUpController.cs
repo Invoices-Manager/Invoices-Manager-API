@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Common;
 
-namespace Invoices_Manager_API.Controllers
+namespace Invoices_Manager_API.Controllers.v01
 {
     [ApiController]
     [Route("api/v01/[controller]")]

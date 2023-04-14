@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.IO;
 
-namespace Invoices_Manager_API.Controllers
+namespace Invoices_Manager_API.Controllers.v01
 {
     [ApiController]
     [TypeFilter(typeof(AuthFilter))]
@@ -81,7 +81,7 @@ namespace Invoices_Manager_API.Controllers
                 return BadRequest("The user is null");
 
             //check if the file is there
-            if (String.IsNullOrEmpty(invoiceFileBase64))
+            if (string.IsNullOrEmpty(invoiceFileBase64))
                 return BadRequest("The file is null");
 
             //save file in temp folder
@@ -107,7 +107,7 @@ namespace Invoices_Manager_API.Controllers
                 return BadRequest("You are not allowed to set the Id! You get one assigned");
 
             //check if the user already set an file id
-            if (!String.IsNullOrEmpty(newInvoice.FileID))
+            if (!string.IsNullOrEmpty(newInvoice.FileID))
                 return BadRequest("You are not allowed to set the File Id!");
 
             //check if the enums are valid
@@ -128,7 +128,7 @@ namespace Invoices_Manager_API.Controllers
                 return BadRequest("The file already exist!");
 
             //check if the file id is valid
-            if (String.IsNullOrEmpty(fileId))
+            if (string.IsNullOrEmpty(fileId))
                 return BadRequest("The file is corrupt!");
 
             //generate a new path for the file (user get a folder + file name => fileId.pdf)
@@ -149,7 +149,7 @@ namespace Invoices_Manager_API.Controllers
             //add the invoices to the db
             user.Invoices.Add(newInvoice);
             await _db.SaveChangesAsync();
-            
+
             //return the invoices
             return CreatedAtAction(nameof(Get), new { id = newInvoice.Id }, newInvoice);
         }

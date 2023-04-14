@@ -4,7 +4,7 @@ using Invoices_Manager_API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Invoices_Manager_API.Controllers
+namespace Invoices_Manager_API.Controllers.v01
 {
     [ApiController]
     [Route("api/v01/[controller]")]
@@ -37,7 +37,7 @@ namespace Invoices_Manager_API.Controllers
             user.Id = 0;
             user.Password = "********************************";
             user.Salt = "********************************";
-            
+
             //return the user as ok response
             return Ok(user);
         }
@@ -50,7 +50,7 @@ namespace Invoices_Manager_API.Controllers
                 return BadRequest("You are not allowed to set the ID! You get one assigned");
 
             //check if salt is empty
-            if (!String.IsNullOrEmpty(newUser.Salt))
+            if (!string.IsNullOrEmpty(newUser.Salt))
                 return BadRequest("You are not allowed to set the Salt! You get one assigned");
 
             //check if the user exist
@@ -58,7 +58,7 @@ namespace Invoices_Manager_API.Controllers
                 return BadRequest($"The user with the username '{newUser.Username}' already exist");
 
             //check if he has manipulated data
-            if (newUser.Invoices.Count != 0 || newUser.BackUps.Count != 0 )
+            if (newUser.Invoices.Count != 0 || newUser.BackUps.Count != 0)
                 return BadRequest("You are not allowed to set the Invoices, BackUps or Notebook!");
 
             //get a salt for the new user
@@ -94,7 +94,7 @@ namespace Invoices_Manager_API.Controllers
             //check if the user exist
             if (user is null)
                 return NotFound($"The user does not exist");
-            
+
             //clear all data from the user before deleting
             _db.Invoice.RemoveRange(user.Invoices);
             _db.BackUp.RemoveRange(user.BackUps);
@@ -104,7 +104,7 @@ namespace Invoices_Manager_API.Controllers
             //remove the user from the database
             _db.User.Remove(user);
             await _db.SaveChangesAsync();
-            
+
             //return the user as ok response
             return Ok(user);
         }
@@ -114,7 +114,7 @@ namespace Invoices_Manager_API.Controllers
         public async Task<IActionResult> Login([FromBody] LoginModel newLogin)
         {
             //check if token is empty
-            if (!String.IsNullOrEmpty(newLogin.Token))
+            if (!string.IsNullOrEmpty(newLogin.Token))
                 return BadRequest("You are not allowed to set the Token! You get one assigned");
 
             //check if the id is empty
@@ -149,7 +149,7 @@ namespace Invoices_Manager_API.Controllers
                     _db.Logins.RemoveRange(user.Logins);
 
                 await _db.SaveChangesAsync();
-                
+
                 return BadRequest("The password is not correct");
             }
 
