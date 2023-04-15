@@ -61,5 +61,17 @@
 
             return new FileInfo(tempFilePath);
         }
+        
+        public static string GetInvoiceFileBase64(string fileID, UserModel user)
+        {
+            //get the path
+            string filePath = Path.Combine(USERDATA_PATH, user.Username);
+
+            //get the file
+            var file = File.ReadAllBytes(Path.Combine(filePath, fileID + ".pdf"));
+
+            //return the file
+            return Convert.ToBase64String(file);
+        }
     }
 }

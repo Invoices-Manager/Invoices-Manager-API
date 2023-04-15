@@ -60,7 +60,14 @@ namespace Invoices_Manager_API.Controllers.v01
             var invoice = user.Invoices.Find(x => x.Id == id);
 
             //return the invoices
-            return Ok(invoice);
+            object result;
+            
+            if (invoice is not null)
+                result = new  { invoice = invoice, base64 = FileCore.GetInvoiceFileBase64(invoice.FileID, user) };
+            else
+                result = new { invoice = invoice};
+
+            return Ok(result);
         }
 
         [HttpPost]
