@@ -52,21 +52,15 @@ namespace Invoices_Manager_API.Controllers.v01
             if (id == 0 || id < 0)
                 return BadRequest("The id is not valid");
 
-            //check if the invoice exist
-            if (!user.Invoices.Any(x => x.Id == id))
-                return NotFound($"The invoice with the id '{id}' does not exist");
-
             //get the invoice
             var invoice = user.Invoices.Find(x => x.Id == id);
 
-            //return the invoices
-            object result;
-            
-            if (invoice is not null)
-                result = new  { invoice = invoice, base64 = FileCore.GetInvoiceFileBase64(invoice.FileID, user) };
-            else
-                result = new { invoice = invoice};
+            //check if the invoice exist
+            if (invoice is null)
+                return NotFound($"The invoice with the id '{id}' does not exist");
 
+            //return the invoice
+            object result = new { invoice, base64 = FileCore.GetInvoiceFileBase64(invoice.FileID, user) };
             return Ok(result);
         }
 
