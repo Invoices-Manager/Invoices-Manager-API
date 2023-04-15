@@ -84,16 +84,6 @@ namespace Invoices_Manager_API.Controllers.v01
             if (string.IsNullOrEmpty(invoiceFileBase64))
                 return BadRequest("The file is null");
 
-            //save file in temp folder
-            var tempFilePath = Path.GetTempFileName();
-            var bytes = Convert.FromBase64String(invoiceFileBase64);
-            System.IO.File.WriteAllBytes(tempFilePath, bytes);
-            FileInfo invoiceInfo = new FileInfo(tempFilePath);
-
-            //check if the file is not bigger than 32MB
-            if (invoiceInfo.Length > 32 * 1024 * 1024)
-                return BadRequest("The file is bigger than 32MB");
-
             //check if the invoice is null
             if (newInvoice == null)
                 return BadRequest("The invoice is null");
@@ -120,8 +110,15 @@ namespace Invoices_Manager_API.Controllers.v01
             if (!Enum.IsDefined(typeof(PaidStateEnum), newInvoice.PaidState))
                 return BadRequest("The PaidState enum is illegal");
 
+            //save the Invoice into the cache folder
+            FileInfo invoiceFileInfo = FileCore.SaveInvoiceFile_IntoCacheFolder(invoiceFileBase64);
+
+            //check if the file is not bigger than 32MB
+            if (invoiceFileInfo.Length > 32 * 1024 * 1024)
+                return BadRequest("The file is bigger than 32MB");
+
             //get the file id
-            var fileId = Security.FileHasher.GetMd5Hash(tempFilePath);
+            var fileId = Security.FileHasher.GetMd5Hash(invoiceFileInfo.FullName);
 
             //check if the file id already exist
             if (user.Invoices.Any(x => x.FileID == fileId))
@@ -132,7 +129,7 @@ namespace Invoices_Manager_API.Controllers.v01
                 return BadRequest("The file is corrupt!");
 
             //move the file to the new path
-            FileCore.SaveInvoiceFile(tempFilePath, fileId, user);
+            FileCore.MoveInvoiceFile_IntoUserFolder(invoiceFileInfo.FullName, fileId, user);
 
             //set the creation date
             newInvoice.CaptureDate = DateTime.Now;
