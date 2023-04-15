@@ -19,6 +19,20 @@
             File.Move(tempFilePath, Path.Combine(filePath, fileId + ".pdf"));
         }
 
+        public static void DeleteInvoiceFile_FromUserFolder(string fileID, UserModel user)
+        {
+            //get the path
+            string filePath = Path.Combine(USERDATA_PATH, user.Username);
+
+            //check if the Path exist
+            if (!Directory.Exists(filePath))
+                Directory.CreateDirectory(filePath);
+
+            //delete the file if it exist
+            if (File.Exists(Path.Combine(filePath, fileID + ".pdf")))
+                File.Delete(Path.Combine(filePath, fileID + ".pdf"));
+        }
+
         public static FileInfo SaveInvoiceFile_IntoCacheFolder(string invoiceFileBase64)
         {
             //check if the cache Path exist

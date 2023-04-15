@@ -211,7 +211,10 @@ namespace Invoices_Manager_API.Controllers.v01
             //saves the changes to the db
             await _db.SaveChangesAsync();
 
-            //return the invoices
+            //remove the file
+            FileCore.DeleteInvoiceFile_FromUserFolder(invoices.FileID, user);
+
+            //return the invoice
             return Ok(invoices);
         }
     }
