@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Invoices_Manager_API.Models
+﻿namespace Invoices_Manager_API.Models
 {
     public class LoginModel
     {

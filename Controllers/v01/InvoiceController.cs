@@ -1,10 +1,4 @@
-﻿using Invoices_Manager_API.Core;
-using Invoices_Manager_API.Filters;
-using Invoices_Manager_API.Models;
-using InvoicesManager.Enums;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using System.IO;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Invoices_Manager_API.Controllers.v01
 {

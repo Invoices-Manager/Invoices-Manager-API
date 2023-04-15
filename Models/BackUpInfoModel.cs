@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Invoices_Manager_API.Models
+﻿namespace Invoices_Manager_API.Models
 {
     public class BackUpInfoModel
     {

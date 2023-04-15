@@ -1,7 +1,4 @@
-﻿using Invoices_Manager_API.Models;
-using System.Reflection.Metadata;
-
-namespace Invoices_Manager_API.Core
+﻿namespace Invoices_Manager_API.Core
 {
     internal class FileCore
     {
@@ -35,8 +32,9 @@ namespace Invoices_Manager_API.Core
             var tempFilePath = Path.Combine(CACHE_PATH, fileId + ".pdf");
             var bytes = Convert.FromBase64String(invoiceFileBase64);
             File.WriteAllBytes(tempFilePath, bytes);
-            
+
             //Set TTL for the file (5 minutes)
+            //The file will be deleted, if the file does not get moved into the user folder
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 1 * 60 * 1000;
             timer.Elapsed += (sender, e) =>

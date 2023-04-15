@@ -1,4 +1,4 @@
-﻿namespace InvoicesManager.Enums
+﻿namespace Invoices_Manager_API.Enums
 {
     public enum MoneyStateEnum
     {

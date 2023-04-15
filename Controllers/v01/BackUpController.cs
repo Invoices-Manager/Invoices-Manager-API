@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Data.Common;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Invoices_Manager_API.Controllers.v01
 {

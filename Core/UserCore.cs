@@ -1,8 +1,5 @@
-﻿using Invoices_Manager_API.Models;
-using Invoices_Manager_API.Security;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 
 namespace Invoices_Manager_API.Core

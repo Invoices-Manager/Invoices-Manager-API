@@ -1,5 +1,4 @@
-﻿using Invoices_Manager_API.Models;
-using Invoices_Manager_API.Security;
+﻿using Invoices_Manager_API.Security;
 
 namespace Invoices_Manager_API.Core
 {

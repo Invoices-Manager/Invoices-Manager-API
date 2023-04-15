@@ -1,13 +1,10 @@
-﻿using Invoices_Manager_API.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Invoices_Manager_API
 {
     public class DataBaseContext : DbContext
     {
-        public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options)
-        {
-        }
+        public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
 
         public DbSet<BackUpInfoModel> BackUpInfo { get; set; }
         public DbSet<BackUpModel> BackUp { get; set; } 
