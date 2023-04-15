@@ -8,7 +8,7 @@ namespace Invoices_Manager_API.Core
         private static readonly string CACHE_PATH = Path.Combine(SYS_PATH, "Cache");
         private static readonly string USERDATA_PATH = Path.Combine(SYS_PATH, "Userdata");
 
-        internal static void SaveInvoiceFile(string tempFilePath, UserModel user)
+        internal static void SaveInvoiceFile(string tempFilePath, string fileId, UserModel user)
         {
             //get the path
             string filePath = Path.Combine(USERDATA_PATH, user.Username);
@@ -18,7 +18,7 @@ namespace Invoices_Manager_API.Core
                 Directory.CreateDirectory(filePath);
 
             //saves the file in the path
-            File.Move(tempFilePath, Path.Combine(filePath, Path.GetFileName(tempFilePath)));
+            File.Move(tempFilePath, Path.Combine(filePath, fileId + ".pdf"));
         }
     }
 }

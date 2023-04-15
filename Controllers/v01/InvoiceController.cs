@@ -131,14 +131,8 @@ namespace Invoices_Manager_API.Controllers.v01
             if (string.IsNullOrEmpty(fileId))
                 return BadRequest("The file is corrupt!");
 
-            //generate a new path for the file (user get a folder + file name => fileId.pdf)
-            var newFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", user.Username.ToLower());
-
-            //create the folder (if they not exist)
-            Directory.CreateDirectory(newFilePath);
-
             //move the file to the new path
-            System.IO.File.Move(tempFilePath, Path.Combine(newFilePath, fileId + ".pdf"));
+            FileCore.SaveInvoiceFile(tempFilePath, fileId, user);
 
             //set the creation date
             newInvoice.CaptureDate = DateTime.Now;
