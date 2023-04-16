@@ -6,6 +6,7 @@
         private static readonly string CACHE_PATH = Path.Combine(SYS_PATH, "Cache");
         private static readonly string USERDATA_PATH = Path.Combine(SYS_PATH, "Userdata");
 
+        
         public static void MoveInvoiceFile_IntoUserFolder(string tempFilePath, string fileId, UserModel user)
         {
             //get the path
@@ -72,6 +73,19 @@
 
             //return the file
             return Convert.ToBase64String(file);
+        }
+
+        public static Task DeleteUserFolder(UserModel user)
+        {
+            //get the path
+            string filePath = Path.Combine(USERDATA_PATH, user.Username);
+
+            //check if the Path exist (expection handling)
+            if (!Directory.Exists(filePath))
+                Directory.CreateDirectory(filePath);
+
+            //delete the folder
+            return Task.Run(() => Directory.Delete(filePath, true));
         }
     }
 }

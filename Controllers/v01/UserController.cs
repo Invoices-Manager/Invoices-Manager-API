@@ -102,6 +102,9 @@ namespace Invoices_Manager_API.Controllers.v01
             _db.User.Remove(user);
             await _db.SaveChangesAsync();
 
+            //remove the user data
+            await FileCore.DeleteUserFolder(user);
+
             //return the user as ok response
             return Ok(user);
         }
