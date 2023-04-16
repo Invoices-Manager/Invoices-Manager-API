@@ -114,5 +114,15 @@
             //delete the folder
             return Task.Run(() => Directory.Delete(filePath, true));
         }
+
+        public static void ClearCacheFolder()
+        {
+            //check if the cache Path exist
+            if (!Directory.Exists(CACHE_PATH))
+                return;
+
+            //delete the folder
+            Directory.Delete(CACHE_PATH, true);
+        }
     }
 }

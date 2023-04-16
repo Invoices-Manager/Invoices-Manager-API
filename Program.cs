@@ -40,6 +40,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+// Will clear the Cache folder, since the files are no longer assigned to a thread anyway (zombie data)
+Task.Run(() => FileCore.ClearCacheFolder());
+
 // Create app (API)
 var app = builder.Build();
 
