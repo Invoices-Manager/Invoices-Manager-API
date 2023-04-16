@@ -1,19 +1,23 @@
 ﻿using Invoices_Manager_API.Controllers.v01;
 using System.Collections;
+using System.Threading.Tasks;
+using System.Threading;
+using Microsoft.EntityFrameworkCore;
 
 namespace Invoices_Manager_API.Core
 {
     public class BackUpCore
     {
         private static Queue<UserModel> backUpQueue = new Queue<UserModel>();
-        private readonly ILogger<BackUpController> _logger;
+        private readonly ILogger<WorkerCore> _logger;
         private readonly DataBaseContext _db;
+        private readonly CancellationToken _cancellationToken;
 
-        public BackUpCore(ILogger<BackUpController> logger, DataBaseContext db)
+        public BackUpCore(ILogger<WorkerCore> logger, DataBaseContext db, CancellationToken cancellationToken)
         {
             _logger = logger;
             _db = db;
-            InitWorker();
+            _cancellationToken = cancellationToken;
         }
 
         //add the user to the queue
@@ -40,9 +44,9 @@ namespace Invoices_Manager_API.Core
         {
             return backUpQueue.Count;
         }
-
+        
         //init the worker
-        public static void InitWorker()
+        public void InitBackUpWorker()
         {
             //create a new thread
             Thread thread = new Thread(BackUpWork);
@@ -50,11 +54,20 @@ namespace Invoices_Manager_API.Core
             thread.Start();
         }
 
-        private void BackUpWork()
+        private async void BackUpWork()
         {
-            while (true)
+            try
             {
-                var ss = _db.Note.ToList();
+                while (!_cancellationToken.IsCancellationRequested)
+                {
+                    var s = _db.Note.ToList();
+                    await Task.Delay(5000, _cancellationToken);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // Task was cancelled, exit gracefully
+                _logger.LogInformation("Worker Task was cancelled.");
             }
         }
     }

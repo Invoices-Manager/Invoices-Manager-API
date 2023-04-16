@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.Extensions.Hosting;
-
 
 // Create builder.
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +17,6 @@ if (connectionString is null)
 
 // Add services to the builder.
 builder.Services.AddControllers();
-builder.Services.AddSingleton<WorkerCore>();
 builder.Services.Configure<FormOptions>(options =>
 {
     options.MultipartBodyLengthLimit = 33554432; // 32 MB
@@ -54,11 +51,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseRouting();
 app.MapControllers();
-
-// Start the Worker Pool
-var hostLifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
-var worker = app.Services.GetRequiredService<WorkerCore>();
-await worker.InitAsync(hostLifetime.ApplicationStopping);
 
 // Run app
 app.Run();
