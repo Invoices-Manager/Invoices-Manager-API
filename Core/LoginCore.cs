@@ -18,9 +18,16 @@ namespace Invoices_Manager_API.Core
             };
         }
 
-        internal static LoginModel LogoutUser(LoginModel newLogout, UserModel user)
+        public static Task DeleteOldTokens(DataBaseContext db, UserModel user)
         {
-            throw new NotImplementedException();
+            //scan all tokens from the user and delete the old ones which are expired
+            foreach (var token in user.Logins)
+            {
+                if (JWT.CheckIfExpired(token.Token))
+                    db.Logins.Remove(token);
+            }
+
+            return db.SaveChangesAsync();
         }
     }
 }

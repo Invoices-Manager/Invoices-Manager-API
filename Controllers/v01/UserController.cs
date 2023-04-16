@@ -163,6 +163,9 @@ namespace Invoices_Manager_API.Controllers.v01
             user.Logins.Add(successfulLogin);
             await _db.SaveChangesAsync();
 
+            //check for old tokens and delete them
+            await LoginCore.DeleteOldTokens(_db, user);
+
             //return the token
             return Ok(successfulLogin);
         }
