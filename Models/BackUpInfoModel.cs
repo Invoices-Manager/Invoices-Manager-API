@@ -5,6 +5,9 @@
         [Key]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "FileID is missing!")]
+        public string FileID { get; set; } = default!;
+
         [Required(ErrorMessage = "BackUp is missing!")]
         public BackUpModel BackUp { get; set; } = default!;
 

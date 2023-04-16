@@ -124,5 +124,18 @@
             //delete the folder
             Directory.Delete(CACHE_PATH, true);
         }
+
+        public static string GetBackUpFilePath(string fileID, UserModel user)
+        {
+            //get the path
+            string filePath = Path.Combine(USERDATA_PATH, user.Username, "Backups");
+
+            //check if the Path exist
+            if (!Directory.Exists(filePath))
+                Directory.CreateDirectory(filePath);
+
+            //return the file path
+            return Path.Combine(filePath, fileID + ".bkup");
+        }
     }
 }

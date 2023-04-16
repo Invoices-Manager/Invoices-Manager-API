@@ -55,7 +55,7 @@ namespace Invoices_Manager_API.Controllers.v01
                 return BadRequest($"The user with the username '{newUser.Username}' already exist");
 
             //check if he has manipulated data
-            if (newUser.Invoices.Count != 0 || newUser.BackUps.Count != 0)
+            if (newUser.Invoices.Count != 0 || newUser.BackUpInfos.Count != 0)
                 return BadRequest("You are not allowed to set the Invoices, BackUps or Notebook!");
 
             //get a salt for the new user
@@ -94,7 +94,7 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //clear all data from the user before deleting
             _db.Invoice.RemoveRange(user.Invoices);
-            _db.BackUp.RemoveRange(user.BackUps);
+            _db.BackUpInfo.RemoveRange(user.BackUpInfos);
             _db.Note.RemoveRange(user.Notebook);
             _db.Logins.RemoveRange(user.Logins);
 

@@ -30,12 +30,10 @@
 
         public int IncorrectLoginAttempts { get; set; } = 0;
 
+
         public List<NoteModel> Notebook { get; set; } = new List<NoteModel>();
-        public List<BackUpModel> BackUps { get; set; } = new List<BackUpModel>();
+        public List<BackUpInfoModel> BackUpInfos { get; set; } = new List<BackUpInfoModel>();
         public List<InvoiceModel> Invoices { get; set; } = new List<InvoiceModel>();
         public List<LoginModel> Logins { get; set; } = new List<LoginModel>();
-
-
-        
     }
 }

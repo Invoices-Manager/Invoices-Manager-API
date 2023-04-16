@@ -18,7 +18,7 @@ namespace Invoices_Manager_API.Core
             //get the whole user form the db
             var user = _db.User
                 .Include(x => x.Invoices)
-                .Include(x => x.BackUps)
+                .Include(x => x.BackUpInfos)
                 .Include(x => x.Notebook)
                 .Include(x => x.Logins)
                 .FirstOrDefaultAsync(x => x.Username == userName);
