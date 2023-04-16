@@ -12,7 +12,14 @@ has a cloud function, and this is the API you need to host it.
 
 
 ## Features:
-
+✔️ 100% free and open source  
+✔️ Easy to use
+✔️ JWT Authentication
+✔️ Cloud function
+✔️ Easy to host
+✔️ Easy Documentation
+✔️ Postman Collection
+✔️ BackUp, Invoice, Note & User function
 
 
 # CHANGELOG
@@ -24,3 +31,8 @@ has a cloud function, and this is the API you need to host it.
 
 
 ## v1.0.0.0
+- Set Up the whole project
+- Add JWT Authentication
+- Add BackUp function
+- Add over 20 endpoints
+- Add Postman Collection
