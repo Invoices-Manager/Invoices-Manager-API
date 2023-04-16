@@ -10,7 +10,7 @@
         public static void MoveInvoiceFile_IntoUserFolder(string tempFilePath, string fileId, UserModel user)
         {
             //get the path
-            string filePath = Path.Combine(USERDATA_PATH, user.Username);
+            string filePath = Path.Combine(USERDATA_PATH, user.Username, "Invoices");
 
             //check if the Path exist
             if (!Directory.Exists(filePath))
@@ -20,10 +20,23 @@
             File.Move(tempFilePath, Path.Combine(filePath, fileId + ".pdf"));
         }
 
+        public static void MoveBackUpFile_IntoUserFolder(string tempFilePath, string fileId, UserModel user)
+        {
+            //get the path
+            string filePath = Path.Combine(USERDATA_PATH, user.Username, "Backups");
+
+            //check if the Path exist
+            if (!Directory.Exists(filePath))
+                Directory.CreateDirectory(filePath);
+
+            //saves the file in the path
+            File.Move(tempFilePath, Path.Combine(filePath, fileId + ".bkup"));
+        }
+
         public static void DeleteInvoiceFile_FromUserFolder(string fileID, UserModel user)
         {
             //get the path
-            string filePath = Path.Combine(USERDATA_PATH, user.Username);
+            string filePath = Path.Combine(USERDATA_PATH, user.Username, "Invoices");
 
             //check if the Path exist
             if (!Directory.Exists(filePath))
@@ -32,6 +45,20 @@
             //delete the file if it exist
             if (File.Exists(Path.Combine(filePath, fileID + ".pdf")))
                 File.Delete(Path.Combine(filePath, fileID + ".pdf"));
+        }
+
+        public static void DeleteBackUpFile_FromUserFolder(string fileID, UserModel user)
+        {
+            //get the path
+            string filePath = Path.Combine(USERDATA_PATH, user.Username, "Backups");
+
+            //check if the Path exist
+            if (!Directory.Exists(filePath))
+                Directory.CreateDirectory(filePath);
+
+            //delete the file if it exist
+            if (File.Exists(Path.Combine(filePath, fileID + ".bkup")))
+                File.Delete(Path.Combine(filePath, fileID + ".bkup"));
         }
 
         public static FileInfo SaveInvoiceFile_IntoCacheFolder(string invoiceFileBase64)
