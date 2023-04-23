@@ -93,7 +93,7 @@
         public static string GetInvoiceFileBase64(string fileID, UserModel user)
         {
             //get the path
-            string filePath = Path.Combine(USERDATA_PATH, user.Username);
+            string filePath = Path.Combine(USERDATA_PATH, user.Username, "Invoices");
 
             //get the file
             var file = File.ReadAllBytes(Path.Combine(filePath, fileID + ".pdf"));

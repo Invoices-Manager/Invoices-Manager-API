@@ -30,6 +30,9 @@ namespace Invoices_Manager_API.Controllers.v01
         [Route("GetAll")]
         public async Task<IActionResult> GetAll()
         {
+            // not implemented yet
+            return await Task.FromResult(new StatusCodeResult(501));
+
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
@@ -45,6 +48,9 @@ namespace Invoices_Manager_API.Controllers.v01
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
+            // not implemented yet
+            return await Task.FromResult(new StatusCodeResult(501));
+
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
@@ -69,6 +75,9 @@ namespace Invoices_Manager_API.Controllers.v01
         [Route("Download")]
         public async Task<IActionResult> Download(int id)
         {
+            // not implemented yet
+            return await Task.FromResult(new StatusCodeResult(501));
+
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
@@ -103,15 +112,19 @@ namespace Invoices_Manager_API.Controllers.v01
 
         [HttpPost]
         [Route("Upload")]
-        public async Task<IActionResult> Upload(IFormFile file)
+        public async Task<IActionResult> Upload()
         {
-            return StatusCode(501);
+            // not implemented yet
+            return await Task.FromResult(new StatusCodeResult(501));
         }
 
         [HttpPost]
         [Route("GenerateBackUp")]
         public async Task<IActionResult> GenerateBackUp()
         {
+            // not implemented yet
+            return await Task.FromResult(new StatusCodeResult(501));
+
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
@@ -131,6 +144,9 @@ namespace Invoices_Manager_API.Controllers.v01
         [Route("QueuePlace")]
         public async Task<IActionResult> QueuePlace()
         {
+            // not implemented yet
+            return await Task.FromResult(new StatusCodeResult(501));
+
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
@@ -149,6 +165,9 @@ namespace Invoices_Manager_API.Controllers.v01
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
+            // not implemented yet
+            return await Task.FromResult(new StatusCodeResult(501));
+
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
