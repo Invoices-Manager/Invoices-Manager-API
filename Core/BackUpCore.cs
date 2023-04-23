@@ -9,13 +9,11 @@ namespace Invoices_Manager_API.Core
     public class BackUpCore
     {
         private static Queue<UserModel> backUpQueue = new Queue<UserModel>();
-        private readonly ILogger<WorkerCore> _logger;
         private readonly DataBaseContext _db;
         private readonly CancellationToken _cancellationToken;
 
-        public BackUpCore(ILogger<WorkerCore> logger, DataBaseContext db, CancellationToken cancellationToken)
+        public BackUpCore(DataBaseContext db, CancellationToken cancellationToken)
         {
-            _logger = logger;
             _db = db;
             _cancellationToken = cancellationToken;
         }
@@ -67,7 +65,6 @@ namespace Invoices_Manager_API.Core
             catch (OperationCanceledException)
             {
                 // Task was cancelled, exit gracefully
-                _logger.LogInformation("Worker Task was cancelled.");
             }
         }
     }
