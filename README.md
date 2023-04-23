@@ -21,6 +21,8 @@ has a cloud function, and this is the API you need to host it.
 ✔️ Postman Collection  
 ✔️ BackUp, Invoice, Note & User function  
 
+## API documentation:
+Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/51e465eed19039d72d144327d8988f62b09d2763/Resources/APIDOC_V01.md) to see the documentation
 
 
 # CHANGELOG
