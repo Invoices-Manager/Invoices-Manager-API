@@ -13,13 +13,13 @@ has a cloud function, and this is the API you need to host it.
 
 ## Features:
 ✔️ 100% free and open source  
-✔️ Easy to use
-✔️ JWT Authentication
-✔️ Cloud function
-✔️ Easy to host
-✔️ Easy Documentation
-✔️ Postman Collection
-✔️ BackUp, Invoice, Note & User function
+✔️ Easy to use  
+✔️ JWT Authentication  
+✔️ Cloud function  
+✔️ Easy to host  
+✔️ Easy Documentation  
+✔️ Postman Collection  
+✔️ BackUp, Invoice, Note & User function  
 
 
 ##  Invoices-Manager-API-v01 Documentation
