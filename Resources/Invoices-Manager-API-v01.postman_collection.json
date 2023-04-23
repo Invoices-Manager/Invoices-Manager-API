@@ -8,7 +8,245 @@
 	"item": [
 		{
 			"name": "BackUp",
-			"item": []
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp/GetAll",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp",
+								"GetAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp?id=34",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Range",
+								"value": " bytes=0-9999",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp/Download?id=34",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp",
+								"Download"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp/Upload?id=34",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp",
+								"Upload"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GenerateBackUp",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp/GenerateBackUp",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp",
+								"GenerateBackUp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "QueuePlace",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp/QueuePlace",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp",
+								"QueuePlace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp?Id=1",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Invoice",
@@ -376,7 +614,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{ENDPOINT}}/api/v01/User/Login",
+							"raw": "{{ENDPOINT}}/api/v01/User/WhoAmI",
 							"host": [
 								"{{ENDPOINT}}"
 							],
@@ -384,7 +622,7 @@
 								"api",
 								"v01",
 								"User",
-								"Login"
+								"WhoAmI"
 							]
 						}
 					},
@@ -528,7 +766,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{ENDPOINT}}/api/v01/User/Logout",
+							"raw": "{{ENDPOINT}}/api/v01/User/LogoutEverywhere",
 							"host": [
 								"{{ENDPOINT}}"
 							],
@@ -536,7 +774,7 @@
 								"api",
 								"v01",
 								"User",
-								"Logout"
+								"LogoutEverywhere"
 							]
 						}
 					},
@@ -572,7 +810,7 @@
 		},
 		{
 			"key": "BEARERTOKEN",
-			"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IlVzZXJOYW1lIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkZpcnN0TmFtZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL3N1cm5hbWUiOiJMYXN0TmFtZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImVtYWlsQGV4YW1wbGUuY29tIiwiRXhwaXJlc09uIjoiMjAyMy0wNC0xNCAyMzoxMToyNyIsImlzcyI6Ikludm9pY2VNYW5nZXJBUEkiLCJhdWQiOiJJbnZvaWNlTWFuZ2VyIn0.abY2nYfNcDHAccN50bjm6zbnfWR422cLp1umMxBkSpc",
+			"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IlVzZXJOYW1lIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkZpcnN0TmFtZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL3N1cm5hbWUiOiJMYXN0TmFtZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImVtYWlsQGV4YW1wbGUuY29tIiwiRXhwaXJlc09uIjoiMjAyMy0wNC0yMyAyMjoyMDo1NyIsImlzcyI6Ikludm9pY2VNYW5nZXJBUEkiLCJhdWQiOiJJbnZvaWNlTWFuZ2VyIn0.F6p-DMc5bLReZAzmzuPYbfXRk_fY3oolB_9RXqpgOdU",
 			"type": "string"
 		}
 	]
