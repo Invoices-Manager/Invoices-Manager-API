@@ -35,7 +35,14 @@ namespace Invoices_Manager_API.Controllers.v01
                 return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
 
             //return the user as ok response
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was found successfully", user.Username, user.Email, user.FirstName, user.LastName));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was found successfully",
+                new Dictionary<string, object> {
+                    { "userName", user.Username },
+                    { "email", user.Email },
+                    { "firstName", user.FirstName },
+                    { "lastName", user.LastName }
+                }));
+
         }
 
         [HttpPost]
@@ -54,7 +61,10 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //check if the user exist
             if (_db.User.Any(x => x.Username == newUser.Username))
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The user already exist", newUser.Username));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The user already exists", 
+                    new Dictionary<string, object> { 
+                        { "userName", newUser.Username } 
+                    }));
 
             //check if he has manipulated data
             if (newUser.Invoices.Count != 0 || newUser.BackUpInfos.Count != 0)
@@ -79,7 +89,10 @@ namespace Invoices_Manager_API.Controllers.v01
             await _db.SaveChangesAsync();
 
             //return the user
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was created successfully", user));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was created successfully", 
+                new Dictionary<string, object> { 
+                    { "user", user }
+                }));
         }
 
         [TypeFilter(typeof(AuthFilter))]
@@ -111,7 +124,13 @@ namespace Invoices_Manager_API.Controllers.v01
             await FileCore.DeleteUserFolder(user);
 
             //return the user as ok response
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was deleted successfully", user.Username, user.Email, user.FirstName, user.LastName));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was deleted successfully",
+                    new Dictionary<string, object> {
+                        { "userName", user.Username },
+                        { "email", user.Email },
+                        { "firstName", user.FirstName },
+                        { "lastName", user.LastName }
+                    }));
         }
 
         [Route("Login")]
@@ -176,7 +195,13 @@ namespace Invoices_Manager_API.Controllers.v01
             await LoginCore.DeleteOldTokens(_db, user);
 
             //return the token
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The login was successful", successfulLogin.Token, successfulLogin.CreationDate, successfulLogin.Username));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The login was successful",
+                new Dictionary<string, object>{
+                    { "token", successfulLogin.Token },
+                    { "creationDate", successfulLogin.CreationDate },
+                    { "userName", successfulLogin.Username }
+                }
+            ));
         }
 
         [TypeFilter(typeof(AuthFilter))]
@@ -198,14 +223,22 @@ namespace Invoices_Manager_API.Controllers.v01
             //check if this loginModel exist
             var logout = _db.Logins.FirstOrDefault(x => x.Token == bearerToken);
             if (logout is null)
-                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The token does not exist", bearerToken));
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The token does not exist",
+                    new Dictionary<string, object> {
+                        { "bearerToken", bearerToken }
+                    }));
 
             //delete the login
             _db.Logins.Remove(logout);
             await _db.SaveChangesAsync();
 
             //return the token
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The logout was successful", user.Username, user.Email, bearerToken));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The logout was successful", 
+                new Dictionary<string, object>{
+                    { "userName", user.Username },
+                    { "email", user.Email },
+                    { "bearerToken", bearerToken }
+                }));
         }
 
         [TypeFilter(typeof(AuthFilter))]
@@ -230,9 +263,14 @@ namespace Invoices_Manager_API.Controllers.v01
             //delete the login
             _db.Logins.RemoveRange(user.Logins);
             await _db.SaveChangesAsync();
-            
+
             //return that all logins are deleted
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "All logins were deleted successfully", loginCounts, user.Username, user.Email));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "All logins were deleted successfully", 
+                new Dictionary<string, object> { 
+                    { "loginCounts", loginCounts }, 
+                    { "userName", user.Username }, 
+                    { "email", user.Email } 
+                }));
         }
     }
 }

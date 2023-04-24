@@ -2,9 +2,12 @@
 {
     public class ResponseMgr
     {
-        public static Object CreateResponse(int statusCode, Guid traceId, string message, Dictionary<string, object> args)
+        public static Object CreateResponse(int statusCode, Guid traceId, string message, Dictionary<string, object>? args = null)
         {
             DateTime dateTime = DateTime.Now;
+
+            if (args is null)
+                args = new Dictionary<string, object>();
 
             return new
             {

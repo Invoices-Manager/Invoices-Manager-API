@@ -41,7 +41,7 @@ namespace Invoices_Manager_API.Controllers.v01
             var invoices = user.Invoices.ToList();
 
             //return all invoices
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "All invoices", invoices));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "All invoices", new Dictionary<string, object> { { "invoices", invoices } }));
         }
 
         [HttpGet]
@@ -57,18 +57,19 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //check if there is an id
             if (id == 0 || id < 0)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", id));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", new Dictionary<string, object> { { "id", id } }));
+
 
             //get the invoice
             var invoice = user.Invoices.Find(x => x.Id == id);
 
             //check if the invoice exist
             if (invoice is null)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice does not exist", id));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice does not exist", new Dictionary<string, object> { { "id", id } }));
 
             //return the invoice
             object result = new { invoice, base64 = FileCore.GetInvoiceFileBase64(invoice.FileID, user) };
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The invoice", result));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The invoice", new Dictionary<string, object> { { "result", result } }));
         }
 
         [HttpPost]
@@ -95,28 +96,36 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //check if the invoice is valid
             if (!ModelState.IsValid)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice is not valid", newInvoice));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice is not valid", new Dictionary<string, object> { { "invoice", newInvoice } }));
 
             //check if the user already set an id
             if (newInvoice.Id != 0)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Id!", newInvoice.Id));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Id!", new Dictionary<string, object> { { "id", newInvoice.Id } }));
 
             //check if the user already set an file id
             if (!string.IsNullOrEmpty(newInvoice.FileID))
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the FileID!", newInvoice.FileID));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the FileID!", new Dictionary<string, object> { { "fileId", newInvoice.FileID } }));
 
             //check if the enums are valid
             if (!Enum.IsDefined(typeof(ImportanceStateEnum), newInvoice.ImportanceState))
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The ImportanceState enum is illegal", ImportanceState.GetEnums()));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The ImportanceState enum is illegal", new Dictionary<string, object> { { "enums", ImportanceState.GetEnums() } }));
 
             if (!Enum.IsDefined(typeof(MoneyStateEnum), newInvoice.MoneyState))
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The MoneyState enum is illegal", MoneyState.GetEnums()));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The MoneyState enum is illegal", new Dictionary<string, object> { { "enums", MoneyState.GetEnums() } }));
 
             if (!Enum.IsDefined(typeof(PaidStateEnum), newInvoice.PaidState))
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The PaidState enum is illegal", PaidState.GetEnums()));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The PaidState enum is illegal", new Dictionary<string, object> { { "enums", PaidState.GetEnums() } }));
 
             //save the Invoice into the cache folder
-            FileInfo invoiceFileInfo = FileCore.SaveInvoiceFile_IntoCacheFolder(invoiceFileBase64);
+            FileInfo invoiceFileInfo;
+            try
+            {
+                invoiceFileInfo = FileCore.SaveInvoiceFile_IntoCacheFolder(invoiceFileBase64);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "Your Base64 string is corrupted!", new Dictionary<string, object> { { "error", ex.Message } }));
+            }
 
             //check if the file is not bigger than 32MB
             if (invoiceFileInfo.Length > 32 * 1024 * 1024)
@@ -167,15 +176,15 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //check if the user provide a id
             if (editInvoice.Id == 0)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Id!", editInvoice.Id));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Id!", new Dictionary<string, object> { { "id", editInvoice.Id } }));
 
             //check if the invoices is valid
             if (!ModelState.IsValid)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice is not valid", editInvoice));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice is not valid", new Dictionary<string, object> { { "invoice", editInvoice } }));
 
             //check if the invoices exist
             if (!user.Invoices.Any(x => x.Id == editInvoice.Id))
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice does not exist", editInvoice.Id));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice does not exist", new Dictionary<string, object> { { "id", editInvoice.Id } }));
 
             //get the invoice id
             int index = user.Invoices.FindIndex(x => x.Id == editInvoice.Id);
@@ -193,7 +202,7 @@ namespace Invoices_Manager_API.Controllers.v01
             await _db.SaveChangesAsync();
 
             //return the invoices
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The invoice was successfully edited", editInvoice));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The invoice was successfully edited", new Dictionary<string, object> { { "invoice", editInvoice } }));
         }
 
         [HttpDelete]
@@ -209,18 +218,18 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //check if there is an id
             if (id == 0 || id < 0)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", id));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", new Dictionary<string, object> { { "id", id } }));
 
             //check if the invoices exist
             if (!user.Invoices.Any(x => x.Id == id))
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice does not exist", id));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice does not exist", new Dictionary<string, object> { { "id", id } }));
 
             //get the invoices
             var invoices = user.Invoices.Find(x => x.Id == id);
 
             //check the invoice
             if (invoices is null)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice is null", id));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice is null", new Dictionary<string, object> { { "id", id } }));
 
             //remove the invoice
             _db.Invoice.Remove(invoices);
@@ -232,7 +241,7 @@ namespace Invoices_Manager_API.Controllers.v01
             FileCore.DeleteInvoiceFile_FromUserFolder(invoices.FileID, user);
 
             //return the invoice
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The invoice was successfully deleted", invoices));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The invoice was successfully deleted", new Dictionary<string, object> { { "invoices", invoices } }));
         }
     }
 }

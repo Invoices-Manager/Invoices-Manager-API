@@ -1,5 +1,6 @@
 ﻿using Invoices_Manager_API.Classes;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
 namespace Invoices_Manager_API.Controllers.v01
@@ -42,7 +43,7 @@ namespace Invoices_Manager_API.Controllers.v01
             var notes = user.Notebook.ToList();
 
             //return all notes
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "All notes", notes));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "All notes", new Dictionary<string, object> { { "notes", notes } }));
         }
 
         [HttpGet]
@@ -58,16 +59,16 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //check if there is an id
             if (id == 0 || id < 0)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", id));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", new Dictionary<string, object> { { "id", id } }));
 
             //get the note
             var note = user.Notebook.Find(x => x.Id == id);
 
             if (note == null)
-                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", id));
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", new Dictionary<string, object> { { "id", id } }));
 
             //return the note
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, $"the {id} note", note));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, $"the {id} note", new Dictionary<string, object> { { "id", id } }));
         }
 
         [HttpPost]
@@ -91,7 +92,7 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //check if the user already set an id
             if (newNote.Id != 0)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The note already have an id", newNote.Id));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The note already have an id", new Dictionary<string, object> { { "id", newNote.Id } }));
 
             //set the creation and edit date
             newNote.CreationDate = DateTime.Now;
@@ -126,7 +127,7 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //check if the note exist
             if (!user.Notebook.Any(x => x.Id == note.Id))
-                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", note.Id));
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", new Dictionary<string, object> { { "id", note.Id } }));
 
             //update the note
             int index = user.Notebook.FindIndex(x => x.Id == note.Id);
@@ -143,7 +144,7 @@ namespace Invoices_Manager_API.Controllers.v01
             await _db.SaveChangesAsync();
 
             //return the note
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The note was updated", user.Notebook[index]));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The note was updated", new Dictionary<string, object> { { "note", user.Notebook[index] } }));
         }
 
         [HttpDelete]
@@ -159,18 +160,18 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //check if there is an id
             if (id == 0 || id < 0)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", id));
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", new Dictionary<string, object> { { "id", id } }));
 
             //check if the note exist
             if (!user.Notebook.Any(x => x.Id == id))
-                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", id));
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", new Dictionary<string, object> { { "id", id } }));
 
             //get the note
             var note = user.Notebook.Find(x => x.Id == id);
 
             //check the note
             if (note is null)
-                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", id));
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", new Dictionary<string, object> { { "id", id } }));
 
             //remove the note
             _db.Note.Remove(note);
@@ -179,7 +180,7 @@ namespace Invoices_Manager_API.Controllers.v01
             await _db.SaveChangesAsync();
 
             //return the note
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The note was deleted", note));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The note was deleted", new Dictionary<string, object> { { "note", note } }));
         }
     }
 }
