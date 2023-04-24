@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Invoices_Manager_API.Classes;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Invoices_Manager_API.Controllers.v01
 {
@@ -28,60 +30,68 @@ namespace Invoices_Manager_API.Controllers.v01
         [Route("GetAll")]
         public async Task<IActionResult> GetAll()
         {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+            
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
-                return BadRequest("The user is null");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The user does not exist"));
 
             //get all notes
             var notes = user.Notebook.ToList();
 
             //return all notes
-            return Ok(notes);
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "All notes", notes));
         }
 
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+            
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
-                return BadRequest("The user is null");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The user does not exist"));
 
             //check if there is an id
             if (id == 0 || id < 0)
-                return BadRequest("The id is not valid");
-
-            //check if the note exist
-            if (!user.Notebook.Any(x => x.Id == id))
-                return NotFound($"The note with the id '{id}' does not exist");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", id));
 
             //get the note
             var note = user.Notebook.Find(x => x.Id == id);
 
+            if (note == null)
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", id));
+
             //return the note
-            return Ok(note);
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, $"the {id} note", note));
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] NoteModel newNote)
         {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+            
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
-                return BadRequest("The user is null");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The user does not exist"));
 
             //check if the note is null
             if (newNote == null)
-                return BadRequest("The note is null");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The note is null"));
 
             //check if the note is valid
             if (!ModelState.IsValid)
-                return BadRequest("The note is not valid");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The note is not valid"));
 
             //check if the user already set an id
             if (newNote.Id != 0)
-                return BadRequest("You are not allowed to set the Id! You get one assigned");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The note already have an id", newNote.Id));
 
             //set the creation and edit date
             newNote.CreationDate = DateTime.Now;
@@ -98,22 +108,25 @@ namespace Invoices_Manager_API.Controllers.v01
         [HttpPut]
         public async Task<IActionResult> Edit([FromBody] NoteModel note)
         {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+            
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
-                return BadRequest("The user is null");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The user does not exist"));
 
             //check if the note is null
             if (note == null)
-                return BadRequest("The note is null");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The note is null"));
 
             //check if the note is valid
             if (!ModelState.IsValid)
-                return BadRequest("The note is not valid");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The note is not valid"));
 
             //check if the note exist
             if (!user.Notebook.Any(x => x.Id == note.Id))
-                return NotFound($"The note with the id '{note.Id}' does not exist");
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", note.Id));
 
             //update the note
             int index = user.Notebook.FindIndex(x => x.Id == note.Id);
@@ -130,31 +143,34 @@ namespace Invoices_Manager_API.Controllers.v01
             await _db.SaveChangesAsync();
 
             //return the note
-            return Ok(user.Notebook[index]);
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The note was updated", user.Notebook[index]));
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+            
             //get the user
             var user = await GetCurrentUser();
             if (user == null)
-                return BadRequest("The user is null");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The user does not exist"));
 
             //check if there is an id
             if (id == 0 || id < 0)
-                return BadRequest("The id is not valid");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", id));
 
             //check if the note exist
             if (!user.Notebook.Any(x => x.Id == id))
-                return NotFound($"The note with the id '{id}' does not exist");
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", id));
 
             //get the note
             var note = user.Notebook.Find(x => x.Id == id);
 
             //check the note
             if (note is null)
-                return BadRequest("The note is null");
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", id));
 
             //remove the note
             _db.Note.Remove(note);
@@ -163,7 +179,7 @@ namespace Invoices_Manager_API.Controllers.v01
             await _db.SaveChangesAsync();
 
             //return the note
-            return Ok(note);
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The note was deleted", note));
         }
     }
 }
