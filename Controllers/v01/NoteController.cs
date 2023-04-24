@@ -103,7 +103,7 @@ namespace Invoices_Manager_API.Controllers.v01
             await _db.SaveChangesAsync();
 
             //return the note
-            return CreatedAtAction(nameof(Get), new { id = newNote.Id }, newNote);
+            return new CreatedAtActionResult("Get", "Note", new { id = newNote.Id }, ResponseMgr.CreateResponse(201, traceId, "Note created successfully", new Dictionary<string, object> { { "note", newNote } }));
         }
 
         [HttpPut]

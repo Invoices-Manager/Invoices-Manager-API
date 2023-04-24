@@ -156,7 +156,7 @@ namespace Invoices_Manager_API.Controllers.v01
             await _db.SaveChangesAsync();
 
             //return the invoices
-            return CreatedAtAction(nameof(Get), new { id = newInvoice.Id }, newInvoice);
+            return new CreatedAtActionResult("Get", "Invoice", new { id = newInvoice.Id }, ResponseMgr.CreateResponse(201, traceId, "Invoice created successfully", new Dictionary<string, object> { { "invoice", newInvoice } }));
         }
 
         [HttpPut]
