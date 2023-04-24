@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Invoices_Manager_API.Classes;
 
 namespace Invoices_Manager_API.Filters
 {
@@ -17,17 +18,17 @@ namespace Invoices_Manager_API.Filters
             //check if the header has a bearerToken, if not there is no key
             if (!context.HttpContext.Request.Headers.TryGetValue("bearerToken", out var potentialBearerToken))
             {
-                context.Result = new UnauthorizedObjectResult("You dont have any bearerToken in your header");
+                context.Result = new UnauthorizedObjectResult(ResponseMgr.CreateResponse(401, Guid.NewGuid(), "You dont have any bearerToken in your header"));
                 return;
             }
-
+            
             //get the bearerToken from the header
             var bearerToken = potentialBearerToken.FirstOrDefault();
 
             //check if this bearerToken is in the db
             if (!_db.Logins.Any(x => x.Token == bearerToken))
             {
-                context.Result = new UnauthorizedObjectResult("You bearerToken is not valid");
+                context.Result = new UnauthorizedObjectResult(ResponseMgr.CreateResponse(401, Guid.NewGuid(), "Your bearerToken is not valid! Get a new one!"));
                 return;
             }
 
@@ -35,7 +36,7 @@ namespace Invoices_Manager_API.Filters
             if (Security.JWT.CheckIfExpired(bearerToken))
             {
                 //return a 401 with a message that the token is expired
-                context.Result = new UnauthorizedObjectResult("Your is bearerToken expired! Get a new one!");
+                context.Result = new UnauthorizedObjectResult(ResponseMgr.CreateResponse(401, Guid.NewGuid(), "Your bearerToken has expired! Get a new one!"));
                 return;
             }
 
