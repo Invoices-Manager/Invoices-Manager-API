@@ -330,23 +330,26 @@
 							}
 						}
 					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "newInvoice",
-									"value": "{\n    \"ExhibitionDate\": \"2023-03-01T00:00:00Z\",\n    \"Reference\": \"REF12ss34\",\n    \"DocumentType\": \"Invoice\",\n    \"Organization\": \"Company\",\n    \"InvoiceNumber\": \"INV1234\",\n    \"Tags\": [\n        \"important\",\n        \"urgent\"\n    ],\n    \"ImportanceState\": 1,\n    \"MoneyState\": 2,\n    \"PaidState\": 0,\n    \"MoneyTotal\": 100.00\n}",
-									"type": "text"
-								},
-								{
-									"key": "invoiceFile",
-									"type": "file",
-									"src": "/C:/Users/Schecher_1/Desktop/32kb.pdf"
+							"mode": "raw",
+							"raw": "{\r\n  \"NewInvoice\": {\r\n    \"CaptureDate\": \"2022-01-01T00:00:00Z\",\r\n    \"ExhibitionDate\": \"2022-01-01T00:00:00Z\",\r\n    \"Reference\": \"Ref-123\",\r\n    \"DocumentType\": \"PDF\",\r\n    \"Organization\": \"ABC Inc.\",\r\n    \"InvoiceNumber\": \"INV-123\",\r\n    \"Tags\": [\r\n      \"Tag1\",\r\n      \"Tag2\"\r\n    ],\r\n    \"ImportanceState\": 1,\r\n    \"MoneyState\": 1,\r\n    \"PaidState\": 1,\r\n    \"MoneyTotal\": 100.00\r\n  },\r\n  \"InvoiceFileBase64\": \"dGVzdCBmaWxlaGNvbnRlbnQ=\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{ENDPOINT}}/api/v01/Invoice",
@@ -490,7 +493,7 @@
 					"response": []
 				},
 				{
-					"name": "Create",
+					"name": "Add",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -603,7 +606,13 @@
 							"type": "noauth"
 						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"username\": \"UserName\",\r\n    \"password\": \"UserPassword\"\r\n}",
@@ -638,7 +647,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"UserName\",\r\n  \"password\": \"UserPassword\",\r\n  \"firstName\": \"FirstName\",\r\n  \"lastName\": \"LastName\",\r\n  \"email\": \"email@example.com\"\r\n}",
+							"raw": "{\r\n  \"username\": \"UserNames\",\r\n  \"password\": \"UserPassword\",\r\n  \"firstName\": \"FirstName\",\r\n  \"lastName\": \"LastName\",\r\n  \"email\": \"email@example.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -700,7 +709,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"UserName\",\r\n    \"password\": \"UserPassword\"\r\n}",
+							"raw": "{\r\n    \"username\": \"UserNames\",\r\n    \"password\": \"UserPassword\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -810,7 +819,7 @@
 		},
 		{
 			"key": "BEARERTOKEN",
-			"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IlVzZXJOYW1lIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkZpcnN0TmFtZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL3N1cm5hbWUiOiJMYXN0TmFtZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImVtYWlsQGV4YW1wbGUuY29tIiwiRXhwaXJlc09uIjoiMjAyMy0wNC0yMyAyMjoyMDo1NyIsImlzcyI6Ikludm9pY2VNYW5nZXJBUEkiLCJhdWQiOiJJbnZvaWNlTWFuZ2VyIn0.F6p-DMc5bLReZAzmzuPYbfXRk_fY3oolB_9RXqpgOdU",
+			"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IlVzZXJOYW1lcyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJGaXJzdE5hbWUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiTGFzdE5hbWUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJlbWFpbEBleGFtcGxlLmNvbSIsIkV4cGlyZXNPbiI6IjIwMjMtMDQtMjQgMjA6MjQ6MDQiLCJpc3MiOiJJbnZvaWNlTWFuZ2VyQVBJIiwiYXVkIjoiSW52b2ljZU1hbmdlciJ9.bNCl5ldiXXEOAFw067XA8A2DqP8I9pkKuHsvE8im5bY",
 			"type": "string"
 		}
 	]
