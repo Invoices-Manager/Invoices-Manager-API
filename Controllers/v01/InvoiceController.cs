@@ -121,6 +121,7 @@
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "The Base64 string is corrupted!", traceId);
                 return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "Your Base64 string is corrupted!", new Dictionary<string, object> { { "error", ex.Message } }));
             }
 
