@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Net.Http.Headers;
-
-namespace Invoices_Manager_API.Controllers.v01
+﻿namespace Invoices_Manager_API.Controllers.v01
 {
     [ApiController]
     [TypeFilter(typeof(AuthFilter))]

@@ -1,8 +1,4 @@
-﻿using Invoices_Manager_API.Classes;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-namespace Invoices_Manager_API.Controllers.v01
+﻿namespace Invoices_Manager_API.Controllers.v01
 {
     [ApiController]
     [Route("api/v01/[controller]")]
