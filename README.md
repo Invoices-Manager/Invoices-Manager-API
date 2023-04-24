@@ -22,7 +22,7 @@ has a cloud function, and this is the API you need to host it.
 ✔️ BackUp, Invoice, Note & User function  
 
 ## API documentation:
-Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/51e465eed19039d72d144327d8988f62b09d2763/Resources/APIDOC_V01.md) to see the documentation
+Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/32cfa882c301a058bfdec5fd4515299f929aca3f/Resources/ApiDoc_V01/APIDOC_V01.md) to see the documentation
 
 
 # CHANGELOG
