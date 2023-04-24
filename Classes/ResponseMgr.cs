@@ -1,10 +1,8 @@
-﻿using System.Net.Http.Formatting;
-
-namespace Invoices_Manager_API.Classes
+﻿namespace Invoices_Manager_API.Classes
 {
     public class ResponseMgr
     {
-        public static Object CreateResponse(int statusCode, Guid traceId, string message, params object[] args)
+        public static Object CreateResponse(int statusCode, Guid traceId, string message, Dictionary<string, object> args)
         {
             DateTime dateTime = DateTime.Now;
 
