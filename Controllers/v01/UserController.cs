@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Invoices_Manager_API.Classes;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Invoices_Manager_API.Controllers.v01
@@ -22,41 +23,42 @@ namespace Invoices_Manager_API.Controllers.v01
         [HttpGet("WhoAmI")]
         public async Task<IActionResult> WhoAmI()
         {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+            
             // Get the bearer token from the header
             var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
             var user = await UserCore.GetCurrentUser(_db, bearerToken);
 
             //check if the user exist
             if (user is null)
-                return NotFound($"The user does not exist");
-
-            //censor => id, password, salt
-            user.Id = 0;
-            user.Password = "********************************";
-            user.Salt = "********************************";
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
 
             //return the user as ok response
-            return Ok(user);
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was found successfully", user.Username, user.Email, user.FirstName, user.LastName));
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] UserModel newUser)
         {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+
             //check if the id is empty
             if (newUser.Id != 0)
-                return BadRequest("You are not allowed to set the ID! You get one assigned");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the ID! You get one assigned"));
 
             //check if salt is empty
             if (!string.IsNullOrEmpty(newUser.Salt))
-                return BadRequest("You are not allowed to set the Salt! You get one assigned");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Salt!"));
 
             //check if the user exist
             if (_db.User.Any(x => x.Username == newUser.Username))
-                return BadRequest($"The user with the username '{newUser.Username}' already exist");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The user already exist", newUser.Username));
 
             //check if he has manipulated data
             if (newUser.Invoices.Count != 0 || newUser.BackUpInfos.Count != 0)
-                return BadRequest("You are not allowed to set the Invoices, BackUps or Notebook!");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Invoices or BackUpInfos!"));
 
             //get a salt for the new user
             var newSalt = Security.PasswordHasher.GetNewSalt();
@@ -76,21 +78,24 @@ namespace Invoices_Manager_API.Controllers.v01
             await _db.User.AddAsync(user);
             await _db.SaveChangesAsync();
 
-            //return the token
-            return Ok(user);
+            //return the user
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was created successfully", user));
         }
 
         [TypeFilter(typeof(AuthFilter))]
         [HttpDelete]
         public async Task<IActionResult> Remove()
         {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+            
             // Get the bearer token from the header
             var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
             var user = await UserCore.GetCurrentUser(_db, bearerToken);
 
             //check if the user exist
             if (user is null)
-                return NotFound($"The user does not exist");
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
 
             //clear all data from the user before deleting
             _db.Invoice.RemoveRange(user.Invoices);
@@ -106,24 +111,27 @@ namespace Invoices_Manager_API.Controllers.v01
             await FileCore.DeleteUserFolder(user);
 
             //return the user as ok response
-            return Ok(user);
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was deleted successfully", user.Username, user.Email, user.FirstName, user.LastName));
         }
 
         [Route("Login")]
         [HttpGet]
         public async Task<IActionResult> Login([FromBody] LoginModel newLogin)
         {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+            
             //check if token is empty
             if (!string.IsNullOrEmpty(newLogin.Token))
-                return BadRequest("You are not allowed to set the Token! You get one assigned");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Token!"));
 
             //check if the id is empty
             if (newLogin.Id != 0)
-                return BadRequest("You are not allowed to set the ID! You get one assigned");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the ID!"));
 
             //check if the date is empty
             if (newLogin.CreationDate != DateTime.MinValue)
-                return BadRequest("You are not allowed to set the LoginDate!");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the CreationDate!"));
 
             //get the user
             var user = await _db.User
@@ -132,11 +140,11 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //check if the user exist
             if (user is null)
-                return NotFound($"The user with the username '{newLogin.Username}' does not exist");
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
 
             //check if the user is safety locked
             if (user.IsBlocked)
-                return BadRequest($"The user with the username '{newLogin.Username}' is locked, because the password would be entered incorrectly three times in a row. Please contact the admin");
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, $"The user with the username '{newLogin.Username}' is locked, because the password would be entered incorrectly three times in a row. Please contact the admin"));
 
             //check if the password is correct
             if (!Security.PasswordHasher.VerifyPassword(newLogin.Password, user.Password))
@@ -150,7 +158,8 @@ namespace Invoices_Manager_API.Controllers.v01
 
                 await _db.SaveChangesAsync();
 
-                return BadRequest("The password is not correct");
+                //return the error
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The password is incorrect"));
             }
 
             //set the incorrect login attempt counter to 0
@@ -167,7 +176,7 @@ namespace Invoices_Manager_API.Controllers.v01
             await LoginCore.DeleteOldTokens(_db, user);
 
             //return the token
-            return Ok(successfulLogin);
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The login was successful", successfulLogin.Token, successfulLogin.CreationDate, successfulLogin.Username));
         }
 
         [TypeFilter(typeof(AuthFilter))]
@@ -175,25 +184,28 @@ namespace Invoices_Manager_API.Controllers.v01
         [HttpDelete]
         public async Task<IActionResult> Logout()
         {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+            
             // Get the bearer token from the header
             var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
             var user = await UserCore.GetCurrentUser(_db, bearerToken);
 
             //check if the user is correct
             if (user is null)
-                return NotFound($"The user does not exist");
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
 
             //check if this loginModel exist
             var logout = _db.Logins.FirstOrDefault(x => x.Token == bearerToken);
             if (logout is null)
-                return NotFound($"There is no login with the token '{bearerToken}'");
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The token does not exist", bearerToken));
 
             //delete the login
             _db.Logins.Remove(logout);
             await _db.SaveChangesAsync();
 
             //return the token
-            return Ok();
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The logout was successful", user.Username, user.Email, bearerToken));
         }
 
         [TypeFilter(typeof(AuthFilter))]
@@ -201,20 +213,26 @@ namespace Invoices_Manager_API.Controllers.v01
         [HttpDelete]
         public async Task<IActionResult> LogoutEverywhere()
         {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+            
             // Get the bearer token from the header
             var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
             var user = await UserCore.GetCurrentUser(_db, bearerToken);
 
             //check if the user is correct
             if (user is null)
-                return NotFound($"The user does not exist");
+                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
+
+            //save the count of logins
+            int loginCounts = user.Logins.Count;
 
             //delete the login
             _db.Logins.RemoveRange(user.Logins);
             await _db.SaveChangesAsync();
-
-            //return the token
-            return Ok();
+            
+            //return that all logins are deleted
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "All logins were deleted successfully", loginCounts, user.Username, user.Email));
         }
     }
 }
