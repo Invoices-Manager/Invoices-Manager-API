@@ -17,7 +17,7 @@
                 Directory.CreateDirectory(filePath);
 
             //saves the file in the path
-            File.Move(tempFilePath, Path.Combine(filePath, fileId + ".pdf"));
+            File.Move(tempFilePath, Path.Combine(filePath, fileId));
         }
 
         public static void MoveBackUpFile_IntoUserFolder(string tempFilePath, string fileId, UserModel user)
@@ -43,8 +43,8 @@
                 Directory.CreateDirectory(filePath);
 
             //delete the file if it exist
-            if (File.Exists(Path.Combine(filePath, fileID + ".pdf")))
-                File.Delete(Path.Combine(filePath, fileID + ".pdf"));
+            if (File.Exists(Path.Combine(filePath, fileID)))
+                File.Delete(Path.Combine(filePath, fileID));
         }
 
         public static void DeleteBackUpFile_FromUserFolder(string fileID, UserModel user)
@@ -71,7 +71,7 @@
             var fileId = Guid.NewGuid().ToString();
             
             //save file in temp folder
-            var tempFilePath = Path.Combine(CACHE_PATH, fileId + ".pdf");
+            var tempFilePath = Path.Combine(CACHE_PATH, fileId);
             var bytes = Convert.FromBase64String(invoiceFileBase64);
             File.WriteAllBytes(tempFilePath, bytes);
 
@@ -96,7 +96,7 @@
             string filePath = Path.Combine(USERDATA_PATH, user.Username, "Invoices");
 
             //get the file
-            var file = File.ReadAllBytes(Path.Combine(filePath, fileID + ".pdf"));
+            var file = File.ReadAllBytes(Path.Combine(filePath, fileID));
 
             //return the file
             return Convert.ToBase64String(file);

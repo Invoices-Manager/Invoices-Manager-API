@@ -63,7 +63,10 @@
                 return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The note does not exist", new Dictionary<string, object> { { "id", id } }));
 
             //return the note
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, $"the {id} note", new Dictionary<string, object> { { "id", id } }));
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, $"the note with the id: {id} "
+                , new Dictionary<string, object> { 
+                     { "note", note }
+                }));
         }
 
         [HttpPost]

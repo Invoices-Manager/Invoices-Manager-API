@@ -56,7 +56,6 @@
             if (id == 0 || id < 0)
                 return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", new Dictionary<string, object> { { "id", id } }));
 
-
             //get the invoice
             var invoice = user.Invoices.Find(x => x.Id == id);
 
@@ -183,6 +182,16 @@
             //check if the invoices exist
             if (!user.Invoices.Any(x => x.Id == editInvoice.Id))
                 return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice does not exist", new Dictionary<string, object> { { "id", editInvoice.Id } }));
+
+            //check if the enums are valid
+            if (!Enum.IsDefined(typeof(ImportanceStateEnum), editInvoice.ImportanceState))
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The ImportanceState enum is illegal", new Dictionary<string, object> { { "enums", ImportanceState.GetEnums() } }));
+
+            if (!Enum.IsDefined(typeof(MoneyStateEnum), editInvoice.MoneyState))
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The MoneyState enum is illegal", new Dictionary<string, object> { { "enums", MoneyState.GetEnums() } }));
+
+            if (!Enum.IsDefined(typeof(PaidStateEnum), editInvoice.PaidState))
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The PaidState enum is illegal", new Dictionary<string, object> { { "enums", PaidState.GetEnums() } }));
 
             //get the invoice id
             int index = user.Invoices.FindIndex(x => x.Id == editInvoice.Id);
