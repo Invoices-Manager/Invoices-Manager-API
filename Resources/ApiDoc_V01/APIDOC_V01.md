@@ -21,7 +21,7 @@
     - [PUT /Note]()
     - [DEL /Note]()
 - User
-    - [GET /User/WhoAmI](/User/DEL__User.md)
+    - [GET /User/WhoAmI](./User/DEL__User.md)
     - [POST /User](Resources/ApiDoc_V01/User/DEL__User.md)
     - [DEL /User](Resources/ApiDoc_V01/User/DEL__User.md)
     - [GET /User/Login](Resources/ApiDoc_V01/User/DEL__User.md)
