@@ -67,6 +67,33 @@
             object result = new { invoice, base64 = FileCore.GetInvoiceFileBase64(invoice.FileID, user) };
             return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The invoice", new Dictionary<string, object> { { "result", result } }));
         }
+        
+        [HttpGet]
+        [Route("GetFile")]
+        public async Task<IActionResult> GetFile(int id)
+        {
+            //set the users traceId
+            Guid traceId = Guid.NewGuid();
+
+            //get the user
+            var user = await GetCurrentUser();
+            if (user == null)
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The user does not exist"));
+
+            //check if there is an id
+            if (id == 0 || id < 0)
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", new Dictionary<string, object> { { "id", id } }));
+
+            //get the invoice
+            var invoice = user.Invoices.Find(x => x.Id == id);
+
+            //check if the invoice exist
+            if (invoice is null)
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The invoice does not exist", new Dictionary<string, object> { { "id", id } }));
+
+            //return the base64 file from the invoice
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The invoice", new Dictionary<string, object> { { "base64", FileCore.GetInvoiceFileBase64(invoice.FileID, user) } }));
+        }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] InvoiceWrapperModel wrapper)
