@@ -5,11 +5,13 @@
 
 | Parameter | Type | Description | Required |
 | --- | --- | --- | --- |
+|  |  |  |  |
 
 #### Header:
 
 | Parameter | Description | Required |
 | --- | --- | --- |
+|  |  |  |
 
 ##### sample-request:
 
