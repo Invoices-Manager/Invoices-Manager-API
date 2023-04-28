@@ -9,6 +9,7 @@
 ## The following endpoints are listed here:
 - Invoice
     - GET /Invoice/GetAll
+    - GET /Invoice/GetFile
     - GET /Invoice
     - POST /Invoice
     - PUT /Invoice
@@ -26,12 +27,3 @@
     - GET /User/Login
     - DEL /User/Logout
     - DEL /User/LogoutEverywhere
----
-
-#### Error Responses:
-
-| Status code | Message | Description |
-| --- | --- |--- |
-| `400` | s | Description of error |
-| `401` | s | Description of error |
-| `404` | s | Description of the error |
