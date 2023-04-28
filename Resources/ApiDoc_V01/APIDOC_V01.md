@@ -8,22 +8,22 @@
   
 ## The following endpoints are listed here:
 - Invoice
-    - GET /Invoice/GetAll
-    - GET /Invoice/GetFile
-    - GET /Invoice
-    - POST /Invoice
-    - PUT /Invoice
-    - DEL /Invoice
+    - [GET /Invoice/GetAll]()
+    - [GET /Invoice/GetFile]()
+    - [GET /Invoice]()
+    - [POST /Invoice]()
+    - [PUT /Invoice]()
+    - [DEL /Invoice]()
 - Note
-    - GET /Note/GetAll
-    - GET /Note
-    - POST /Note
-    - PUT /Note
-    - DEL /Note
+    - [GET /Note/GetAll]()
+    - [GET /Note]()
+    - [POST /Note]()
+    - [PUT /Note]()
+    - [DEL /Note]()
 - User
-    - GET /User/WhoAmI
-    - POST /User
-    - DEL /User
-    - GET /User/Login
-    - DEL /User/Logout
-    - DEL /User/LogoutEverywhere
+    - [GET /User/WhoAmI](/User/DEL__User.md)
+    - [POST /User](/User/DEL__User.md)
+    - [DEL /User](/User/DEL__User.md)
+    - [GET /User/Login](/User/DEL__User.md)
+    - [DEL /User/Logout](/User/DEL__User.md)
+    - [DEL /User/LogoutEverywhere](/User/DEL__User.md)
