@@ -36,6 +36,6 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/dev_0
 ## v1.0.0.0
 - Set Up the whole project
 - Add JWT Authentication
-- Add BackUp function
-- Add over 20 endpoints
+- Add 3 Controllers (User, Invoice, Note)
+- Add 17 endpoints
 - Add Postman Collection
