@@ -1,0 +1,10 @@
+﻿global using Invoices_Manager_API.Models;
+global using Invoices_Manager_API.Core;
+global using Invoices_Manager_API.Filters;
+global using Invoices_Manager_API.Enums;
+global using Invoices_Manager_API.Classes;
+global using System.ComponentModel.DataAnnotations;
+global using System.ComponentModel.DataAnnotations.Schema;
+global using Microsoft.AspNetCore.Mvc;
+global using System.Diagnostics.CodeAnalysis;
+global using Microsoft.EntityFrameworkCore;

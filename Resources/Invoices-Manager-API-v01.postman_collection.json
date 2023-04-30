@@ -1,0 +1,858 @@
+{
+	"info": {
+		"_postman_id": "fad744fb-8ac8-420d-8a5b-699ff2be2d24",
+		"name": "Invoices-Manager-API-v01",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17478008"
+	},
+	"item": [
+		{
+			"name": "BackUp",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp/GetAll",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp",
+								"GetAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp?id=34",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Range",
+								"value": " bytes=0-9999",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp/Download?id=34",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp",
+								"Download"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp/Upload?id=34",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp",
+								"Upload"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GenerateBackUp",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp/GenerateBackUp",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp",
+								"GenerateBackUp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "QueuePlace",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp/QueuePlace",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp",
+								"QueuePlace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/BackUp?Id=1",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"BackUp"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Invoice",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Invoice/GetAll",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice",
+								"GetAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Invoice?id=11",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get File",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Invoice/GetFile?id=11",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice",
+								"GetFile"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"NewInvoice\": {\r\n    \"CaptureDate\": \"2022-01-01T00:00:00Z\",\r\n    \"ExhibitionDate\": \"2022-01-01T00:00:00Z\",\r\n    \"Reference\": \"Ref-123\",\r\n    \"DocumentType\": \"PDF\",\r\n    \"Organization\": \"ABC Inc.\",\r\n    \"InvoiceNumber\": \"INV-123\",\r\n    \"Tags\": [\r\n      \"Tag1\",\r\n      \"Tag2\"\r\n    ],\r\n    \"ImportanceState\": 1,\r\n    \"MoneyState\": 1,\r\n    \"PaidState\": 1,\r\n    \"MoneyTotal\": 100.00\r\n  },\r\n  \"InvoiceFileBase64\": \"SGFsbG8=\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Invoice",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 11,\r\n    \"captureDate\": \"2023-04-28T19:21:14.4365823+02:00\",\r\n    \"exhibitionDate\": \"2022-01-01T00:00:00Z\",\r\n    \"reference\": \"Ref-123\",\r\n    \"documentType\": \"PDF\",\r\n    \"organization\": \"ABC Inc.\",\r\n    \"invoiceNumber\": \"INV-123\",\r\n    \"tags\": [\r\n        \"Tag1\",\r\n        \"Tag2\"\r\n    ],\r\n    \"tagsAsString\": \"Tag1;Tag2\",\r\n    \"importanceState\": 1,\r\n    \"moneyState\": 1,\r\n    \"paidState\": 1,\r\n    \"moneyTotal\": 10000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Invoice",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Invoice?Id=10",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Invoice"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Note",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Note/GetAll",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Note",
+								"GetAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Note?id=37",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Note"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "37"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Name\",\r\n    \"Value\": \"Value\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Note",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Note"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 16,\r\n    \"name\": \"Name\",\r\n    \"value\": \"Value\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Note",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Note"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/Note?Id=16",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"Note"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": "16"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "WhoAmI",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/User/WhoAmI",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User",
+								"WhoAmI"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"UserName\",\r\n  \"password\": \"UserPassword\",\r\n  \"firstName\": \"FirstName\",\r\n  \"lastName\": \"LastName\",\r\n  \"email\": \"email@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/User",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/User",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"UserNames\",\r\n    \"password\": \"UserPassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/User/Login",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User",
+								"Login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/User/Logout",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User",
+								"Logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout Everywhere",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "bearerToken",
+								"value": "{{BEARERTOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/api/v01/User/LogoutEverywhere",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"api",
+								"v01",
+								"User",
+								"LogoutEverywhere"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ENDPOINT",
+			"value": "localhost:5170"
+		},
+		{
+			"key": "BEARERTOKEN",
+			"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IlVzZXJOYW1lcyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJGaXJzdE5hbWUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiTGFzdE5hbWUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJlbWFpbEBleGFtcGxlLmNvbSIsIkV4cGlyZXNPbiI6IjIwMjMtMDQtMjggMjA6MTY6NDAiLCJpc3MiOiJJbnZvaWNlTWFuZ2VyQVBJIiwiYXVkIjoiSW52b2ljZU1hbmdlciJ9.8JniCCWCmQeXAlqfu3ME9nMpEA70n3cjDt0C-jOIoCQ",
+			"type": "string"
+		}
+	]
+}
