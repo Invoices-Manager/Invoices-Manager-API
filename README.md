@@ -3,13 +3,28 @@
 ## Important Info!
 The program may contain errors, if any are found, please report them!
 
-
 ## Application description:
 Are you also tired of having all your invoices (and other documents)
 only on one PC? Although nowadays everything has a cloud. <br/>
 Now it's over, so you can use your Invoices Manager as usual, which now  
 has a cloud function, and this is the API you need to host it.
 
+## Setup:
+1. Download the latest release (for linux or windows)
+2. Extract the archive  
+
+3. Open the `appsettings.json` file
+4. Change the `DefaultConnection` to your database connection string
+5. Change the `SymmetricSecurityKey` to your own SymmetricSecurityKey
+6. Change the `Issuer` to your own Issuer
+7. Change the `Audience` to your own Audience
+8. Change the `Expiration` to your own Expiration (in minutes)  
+9. Save and close the file  
+
+10. Open the `SqlDb.sql` file and copy the content
+11. Paste the content into your database and execute it
+
+12. Run the `InvoicesManagerAPI` file
 
 ## Features:
 ✔️ 100% free and open source  
