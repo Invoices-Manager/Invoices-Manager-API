@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Invoices_Manager_API.Classes;
+using Invoices_Manager_API.Security;
 
 namespace Invoices_Manager_API.Filters
 {
@@ -25,8 +26,15 @@ namespace Invoices_Manager_API.Filters
             //get the bearerToken from the header
             var bearerToken = potentialBearerToken.FirstOrDefault();
 
+            //check if (for whatever reason) the token is null
+            if (bearerToken is null)
+            {
+                context.Result = new UnauthorizedObjectResult(ResponseMgr.CreateResponse(401, Guid.NewGuid(), "Your bearerToken is not valid! Get a new one!"));
+                return;
+            }
+
             //check if this bearerToken is in the db
-            if (!_db.Logins.Any(x => x.Token == bearerToken))
+            if (!_db.Logins.Any(x => x.Token == Hasher.GetSHA512Hash(bearerToken)))
             {
                 context.Result = new UnauthorizedObjectResult(ResponseMgr.CreateResponse(401, Guid.NewGuid(), "Your bearerToken is not valid! Get a new one!"));
                 return;

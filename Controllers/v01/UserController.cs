@@ -1,4 +1,6 @@
-﻿namespace Invoices_Manager_API.Controllers.v01
+﻿using Invoices_Manager_API.Security;
+
+namespace Invoices_Manager_API.Controllers.v01
 {
     [ApiController]
     [Route("api/v01/[controller]")]
@@ -183,6 +185,13 @@
             //create the login
             LoginModel successfulLogin = LoginCore.LoginUser(newLogin, user, _config);
 
+            //add it to the user 
+            user.Logins.Add(successfulLogin);
+
+            //save the jwt for the response and hash the model for the db
+            string jwt = successfulLogin.Token;
+            successfulLogin.Token = Hasher.GetSHA512Hash(jwt);
+
             //save the token
             user.Logins.Add(successfulLogin);
             await _db.SaveChangesAsync();
@@ -193,7 +202,7 @@
             //return the token
             return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The login was successful",
                 new Dictionary<string, object>{
-                    { "token", successfulLogin.Token },
+                    { "token", jwt },
                     { "creationDate", successfulLogin.CreationDate },
                     { "userName", successfulLogin.Username }
                 }
