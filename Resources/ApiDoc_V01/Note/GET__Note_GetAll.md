@@ -1,4 +1,4 @@
-### DEL /Note/GetAll
+### GET /Note/GetAll
 ---
 
 #### Query parameters:
