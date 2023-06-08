@@ -1,7 +1,10 @@
 ﻿# Invoices Manager - API (written in C#   DOTNET6.0)
 
 ## Important Info!
-The program may contain errors, if any are found, please report them!
+The program may contain errors, if any are found, please report them!  
+
+The server / api does not encrypt the data. 
+It manages the data as it receives it, so you should encrypt the data before sending it to the api.
 
 ## Application description:
 Are you also tired of having all your invoices (and other documents)
@@ -47,6 +50,8 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/dev_0
 ### Z = Minor version (small updates)
 ### W = Revision version (bug fixes)
 
+## v1.0.1.0
+- JWT are now saved hashed in the database
 
 ## v1.0.0.0
 - Set Up the whole project
