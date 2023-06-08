@@ -24,8 +24,11 @@ has a cloud function, and this is the API you need to host it.
 8. Change the `Expiration` to your own Expiration (in minutes)  
 9. Save and close the file  
 
-10. Open the `SqlDb.sql` file and copy the content
-11. Paste the content into your database and execute it
+10. Connect via shell to you Database-Server
+11. Create a Database
+12. use {databaseName}
+13. Open the `SqlDb.sql` file and copy the content
+14. Paste the content into your shell and execute it
 
 12. Run the `InvoicesManagerAPI` file
 
