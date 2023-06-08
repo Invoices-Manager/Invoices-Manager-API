@@ -1,4 +1,4 @@
-### DEL /Note
+### GET /Note
 ---
 
 #### Query parameters:
