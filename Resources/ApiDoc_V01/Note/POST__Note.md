@@ -15,7 +15,7 @@
 
 ##### sample-request:
 
-> **POST /Note?id=11**
+> **POST /Note
 
 ##### Body:
 
