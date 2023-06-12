@@ -230,7 +230,7 @@ namespace Invoices_Manager_API.Controllers.v01
                 return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
 
             //check if this loginModel exist
-            var logout = _db.Logins.FirstOrDefault(x => x.Token == bearerToken);
+            var logout = _db.Logins.FirstOrDefault(x => x.Token == Hasher.GetSHA512Hash(bearerToken));
             if (logout is null)
                 return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The token does not exist",
                     new Dictionary<string, object> {
