@@ -23,9 +23,9 @@ has a cloud function, and this is the API you need to host it.
 3.) Run `dotnet ef` in your terminal, if you see an unicorn, everything is installed correctly.
 
 ### Is the source from the api
-4.) Clone the repository `(from the main branch)`    (recommanded way, if you want to update the api easily via git)
-    or 
-    download the source code in the release section
+4.) Clone the repository `(from the main branch)`  (Recommended way if you want to simply update the API via Git)  
+    or  
+    download the source code in the release section  
     
 ### Is needed if you downloaded it from the release section
 5.) Extract the archive and delete the archive
