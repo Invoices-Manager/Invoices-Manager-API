@@ -49,9 +49,9 @@ has a cloud function, and this is the API you need to host it.
 13.) Run `dotnet ef database update` in your terminal. (of course in the project folder)
 
 ### Start the API | This will start the api on port 5000 for all ip's
-### Change the port if you want to
-### --configuration <configuration mode>: Sets the configuration mode. Possible values are "Debug" or "Release".
-### --verbosity <level>: Sets the level of detail of the console output. Possible values are "quiet", "minimal", "normal", "detailed" and "diagnostic".
+#### Change the port if you want to
+#### --configuration <configuration mode>: Sets the configuration mode. Possible values are "Debug" or "Release".
+#### --verbosity <level>: Sets the level of detail of the console output. Possible values are "quiet", "minimal", "normal", "detailed" and "diagnostic".
 14.) Run the `dotnet run --urls=http://0.0.0.0:5000 --configuration Release --verbosity minimal` to start the api.
 
 
