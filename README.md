@@ -13,24 +13,52 @@ Now it's over, so you can use your Invoices Manager as usual, which now
 has a cloud function, and this is the API you need to host it.
 
 ## Setup:
-1. Download the latest release (for linux or windows)
-2. Extract the archive  
+### Needed to start the API and manage the database afterwards.
+1.) Install the latest version of [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
 
-3. Open the `appsettings.json` file
-4. Change the `DefaultConnection` to your database connection string
-5. Change the `SymmetricSecurityKey` to your own SymmetricSecurityKey
-6. Change the `Issuer` to your own Issuer
-7. Change the `Audience` to your own Audience
-8. Change the `Expiration` to your own Expiration (in minutes)  
-9. Save and close the file  
+### Needed to manage the database.
+2.) Install the `dotnet ef` tool via `dotnet tool install --global dotnet-ef`
 
+### Just a test if everything is installed correctly.
+3.) Run `dotnet ef` in your terminal, if you see an unicorn, everything is installed correctly.
+
+### Is the source from the api
+4.) Clone the repository `(from the main branch)`  (Recommended way if you want to simply update the API via Git)  
+    or  
+    download the source code in the release section  
+    
+### Is needed if you downloaded it from the release section
+5.) Extract the archive and delete the archive
+
+### Configure the Conf for the API
+6.) Open the `appsettings.json` file
+
+7.) Change the `DefaultConnection` to your database connection string
+
+8.) Change the `SymmetricSecurityKey` to your own SymmetricSecurityKey
+
+9.) Change the `Issuer` to your own Issuer
+
+10.) Change the `Audience` to your own Audience
+
+11.) Change the `Expiration` to your own Expiration (in minutes)  
+
+12.) Save and close the file  
+
+### Configure / Generate the database | This will generate all tables and columns in your database on the latest version
+13.) Run `dotnet ef database update` in your terminal. (of course in the project folder)
+
+### Start the API | This will start the api on port 5000 for all ip's
+#### Change the port if you want to
+#### --configuration <configuration mode>: Sets the configuration mode. Possible values are "Debug" or "Release".
+#### --verbosity <level>: Sets the level of detail of the console output. Possible values are "quiet", "minimal", "normal", "detailed" and "diagnostic".
+14.) Run the `dotnet run --urls=http://0.0.0.0:5000 --configuration Release --verbosity minimal` to start the api.
+=======
 10. Connect via shell to you Database-Server
 11. Create a Database
 12. use {databaseName}
 13. Open the `SqlDb.sql` file and copy the content
 14. Paste the content into your shell and execute it
-
-12. Run the `InvoicesManagerAPI` file
 
 ## Features:
 ✔️ 100% free and open source  
@@ -52,6 +80,9 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
 ### Y = Minor version (big updates)
 ### Z = Minor version (small updates)
 ### W = Revision version (bug fixes)
+
+## v1.0.2.0
+- The API will now be started from the source code and not from the compiled version
 
 ## v1.0.1.0
 - JWT are now saved hashed in the database

@@ -64,9 +64,9 @@ namespace Invoices_Manager_API.Controllers.v01
                         { "userName", newUser.Username } 
                     }));
 
-            //check if he has manipulated data
-            if (newUser.Invoices.Count != 0 || newUser.BackUpInfos.Count != 0)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Invoices or BackUpInfos!"));
+            ////check if he has manipulated data
+            //if (newUser.Invoices.Count != 0 || newUser.BackUpInfos.Count != 0)
+            //    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Invoices or BackUpInfos!"));
 
             //get a salt for the new user
             var newSalt = Security.PasswordHasher.GetNewSalt();
@@ -75,7 +75,7 @@ namespace Invoices_Manager_API.Controllers.v01
             var user = new UserModel
             {
                 Username = newUser.Username,
-                Password = Security.PasswordHasher.HashPassword(newUser.Password, newSalt),
+                Password = PasswordHasher.HashPassword(newUser.Password, newSalt),
                 Salt = newSalt,
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,
@@ -85,6 +85,8 @@ namespace Invoices_Manager_API.Controllers.v01
             //add the user to the database
             await _db.User.AddAsync(user);
             await _db.SaveChangesAsync();
+
+            _logger.LogInformation($"User {user.Username} was created");
 
             //return the user
             return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was created successfully", 
@@ -110,7 +112,7 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //clear all data from the user before deleting
             _db.Invoice.RemoveRange(user.Invoices);
-            _db.BackUpInfo.RemoveRange(user.BackUpInfos);
+            //_db.BackUpInfo.RemoveRange(user.BackUpInfos);
             _db.Note.RemoveRange(user.Notebook);
             _db.Logins.RemoveRange(user.Logins);
 
@@ -120,6 +122,8 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //remove the user data
             await FileCore.DeleteUserFolder(user);
+
+            _logger.LogInformation($"User {user.Username} was deleted");
 
             //return the user as ok response
             return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was deleted successfully",

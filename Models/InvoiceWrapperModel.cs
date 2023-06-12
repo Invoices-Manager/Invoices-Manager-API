@@ -2,7 +2,7 @@
 {
     public class InvoiceWrapperModel
     {
-        public InvoiceModel NewInvoice { get; set; }
-        public string InvoiceFileBase64 { get; set; }
+        public InvoiceModel NewInvoice { get; set; } = default!;
+        public string InvoiceFileBase64 { get; set; } = string.Empty;
     }
 }

@@ -7,9 +7,20 @@ namespace Invoices_Manager_API.Security
 {
     public class JWT
     {
-        public static string GetJWT(UserModel user, DateTime timeStamp, IConfiguration config)
+        public static string GetJWT(UserModel user, IConfiguration config)
         {
-            var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtKeys:SymmetricSecurityKey"]));
+            //set the keys in strings
+            string? symmetricSecurityKey = config["JwtKeys:SymmetricSecurityKey"];
+            string? issuer = config["JwtKeys:Issuer"];
+            string? audience = config["JwtKeys:Audience"];
+            int? expiration = Convert.ToInt32(config["JwtKeys:Expiration"]);
+
+            //check if the keys are set
+            if (String.IsNullOrEmpty(symmetricSecurityKey) || String.IsNullOrEmpty(issuer) || String.IsNullOrEmpty(audience) || expiration == null || expiration == 0)
+                throw new Exception("JWT keys are not set or invalid!");
+
+
+            var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(symmetricSecurityKey));
             var Credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256Signature);
 
             var Claims = new[]
@@ -18,12 +29,12 @@ namespace Invoices_Manager_API.Security
                 new Claim(ClaimTypes.Name, user.FirstName),
                 new Claim(ClaimTypes.Surname, user.LastName),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim("ExpiresOn", DateTime.Now.AddMinutes(Convert.ToDouble(config["JwtKeys:Expiration"])).ToString("yyyy-MM-dd HH:mm:ss"))
+                new Claim("ExpiresOn", DateTime.Now.AddMinutes(Convert.ToDouble(expiration)).ToString("yyyy-MM-dd HH:mm:ss"))
             };
 
             var JwtToken = new JwtSecurityToken(
-                config["JwtKeys:Issuer"],
-                config["JwtKeys:Audience"],
+                issuer,
+                audience,
                 Claims,
                 signingCredentials: Credentials);
 
