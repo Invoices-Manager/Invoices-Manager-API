@@ -53,7 +53,12 @@ has a cloud function, and this is the API you need to host it.
 #### --configuration <configuration mode>: Sets the configuration mode. Possible values are "Debug" or "Release".
 #### --verbosity <level>: Sets the level of detail of the console output. Possible values are "quiet", "minimal", "normal", "detailed" and "diagnostic".
 14.) Run the `dotnet run --urls=http://0.0.0.0:5000 --configuration Release --verbosity minimal` to start the api.
-
+=======
+10. Connect via shell to you Database-Server
+11. Create a Database
+12. use {databaseName}
+13. Open the `SqlDb.sql` file and copy the content
+14. Paste the content into your shell and execute it
 
 ## Features:
 ✔️ 100% free and open source  
@@ -66,7 +71,7 @@ has a cloud function, and this is the API you need to host it.
 ✔️ BackUp, Invoice, Note & User function  
 
 ## API documentation:
-Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/dev_01/Resources/ApiDoc_V01/APIDOC_V01.md) to see the documentation
+Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/master/Resources/ApiDoc_V01/APIDOC_V01.md) to see the documentation
 
 
 # CHANGELOG
