@@ -15,7 +15,7 @@
 
 ##### sample-request:
 
-> **GET /Invoice?Id=10**
+> **DEL /Invoice?Id=10**
 
 ##### Body:
 
