@@ -76,6 +76,9 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/dev_0
 ### Z = Minor version (small updates)
 ### W = Revision version (bug fixes)
 
+## v1.0.2.0
+- The API will now be started from the source code and not from the compiled version
+
 ## v1.0.1.0
 - JWT are now saved hashed in the database
 
