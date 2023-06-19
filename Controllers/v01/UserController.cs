@@ -136,7 +136,7 @@ namespace Invoices_Manager_API.Controllers.v01
         }
 
         [Route("Login")]
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel newLogin)
         {
             //set the users traceId

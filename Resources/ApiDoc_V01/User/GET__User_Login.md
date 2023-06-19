@@ -1,4 +1,4 @@
-### GET /User/Login
+### POST /User/Login
 ---
 
 #### Query parameters:
@@ -15,7 +15,7 @@
 
 ##### sample-request:
 
-> **GET /User/Login**
+> **POST /User/Login**
 
 ##### Body:
 
