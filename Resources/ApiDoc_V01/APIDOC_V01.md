@@ -24,6 +24,6 @@
     - [GET /User/WhoAmI](./User/GET__User_WhoAmI.md)
     - [POST /User](./User/POST__User.md)
     - [DEL /User](./User/DEL__User.md)
-    - [GET /User/Login](./User/GET__User_Login.md)
+    - [POST /User/Login](./User/GET__User_Login.md)
     - [DEL /User/Logout](./User/DEL__User_Logout.md)
     - [DEL /User/LogoutEverywhere](./User/DEL__User_LogoutEverywhere.md)
