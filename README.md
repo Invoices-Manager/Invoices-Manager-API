@@ -75,9 +75,13 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
 ### Z = Minor version (small updates)
 ### W = Revision version (bug fixes)
 
+## v1.0.2.1
+- The Endpoint "GET /api/v01/User" (create user) now is an POST endpoint (C# does not allow a body in a get request)
+
 ## v1.0.2.0
 - The API will now be started from the source code and not from the compiled version
 - FIX: The user controller tried to find a hashed token with an unhashed one when logging off
+
     
 ## v1.0.1.0
 - JWT are now saved hashed in the database
