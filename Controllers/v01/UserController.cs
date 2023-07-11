@@ -23,10 +23,16 @@ namespace Invoices_Manager_API.Controllers.v01
         {
             //set the users traceId
             Guid traceId = Guid.NewGuid();
-            
-            // Get the bearer token from the header
-            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-            var user = await UserCore.GetCurrentUser(_db, bearerToken);
+
+            //get the user
+            UserModel? user;
+            using (var _uc = new UserCore())
+            {
+                var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+                user = await _uc.GetCurrentUser(_db, bearerToken);
+                if (user is null)
+                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
+            }
 
             //check if the user exist
             if (user is null)
@@ -101,10 +107,16 @@ namespace Invoices_Manager_API.Controllers.v01
         {
             //set the users traceId
             Guid traceId = Guid.NewGuid();
-            
-            // Get the bearer token from the header
-            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-            var user = await UserCore.GetCurrentUser(_db, bearerToken);
+
+            //get the user
+            UserModel? user;
+            using (var _uc = new UserCore())
+            {
+                var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+                user = await _uc.GetCurrentUser(_db, bearerToken);
+                if (user is null)
+                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
+            }
 
             //check if the user exist
             if (user is null)
@@ -220,10 +232,17 @@ namespace Invoices_Manager_API.Controllers.v01
         {
             //set the users traceId
             Guid traceId = Guid.NewGuid();
-            
-            // Get the bearer token from the header
-            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-            var user = await UserCore.GetCurrentUser(_db, bearerToken);
+
+            //get the user
+            UserModel? user;
+            string bearerToken;
+            using (var _uc = new UserCore())
+            {
+                bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+                user = await _uc.GetCurrentUser(_db, bearerToken);
+                if (user is null)
+                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
+            }
 
             //check if the user is correct
             if (user is null)
@@ -257,10 +276,16 @@ namespace Invoices_Manager_API.Controllers.v01
         {
             //set the users traceId
             Guid traceId = Guid.NewGuid();
-            
-            // Get the bearer token from the header
-            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-            var user = await UserCore.GetCurrentUser(_db, bearerToken);
+
+            //get the user
+            UserModel? user;
+            using (var _uc = new UserCore())
+            {
+                var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+                user = await _uc.GetCurrentUser(_db, bearerToken);
+                if (user is null)
+                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
+            }
 
             //check if the user is correct
             if (user is null)
