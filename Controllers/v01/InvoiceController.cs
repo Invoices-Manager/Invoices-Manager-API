@@ -25,7 +25,7 @@
             using (var _uc = new UserCore())
             {
                 var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-                var user = await _uc.GetCurrentUser(_db, bearerToken, GetUserTypeEnum.Notes);
+                var user = await _uc.GetCurrentUser(_db, bearerToken, GetUserTypeEnum.Invoices);
 
                 if (user is null)
                     return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
