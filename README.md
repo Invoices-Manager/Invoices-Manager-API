@@ -77,6 +77,10 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
 ### Z = Minor version (small updates)
 ### W = Revision version (bug fixes)
 
+## v1.0.3.0
+- Ram usage improved
+- Response time improved
+
 ## v1.0.2.1
 - The Endpoint "GET /api/v01/User" (create user) now is an POST endpoint (C# does not allow a body in a get request)
 
