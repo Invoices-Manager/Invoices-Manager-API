@@ -22,10 +22,10 @@
             Guid traceId = Guid.NewGuid();
 
             //get the user
-            using (var _uc = new UserCore())
+            using (var _uc = new UserCore(_db))
             {
                 var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-                var user = await _uc.GetCurrentUser(_db, bearerToken, GetUserTypeEnum.Invoices);
+                var user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.Invoices);
 
                 if (user is null)
                     return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
@@ -46,10 +46,10 @@
 
             //get the user
             UserModel? user;
-            using (var _uc = new UserCore())
+            using (var _uc = new UserCore(_db))
             {
                 var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-                user = await _uc.GetCurrentUser(_db, bearerToken, GetUserTypeEnum.Invoices);
+                user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.Invoices);
                 if (user is null)
                     return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
 
@@ -78,10 +78,10 @@
             Guid traceId = Guid.NewGuid();
 
             //get the user
-            using (var _uc = new UserCore())
+            using (var _uc = new UserCore(_db))
             {
                 var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-                var user = await _uc.GetCurrentUser(_db, bearerToken, GetUserTypeEnum.Invoices);
+                var user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.Invoices);
                 if (user is null)
                     return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
 
@@ -112,10 +112,10 @@
             string invoiceFileBase64 = wrapper.InvoiceFileBase64;
 
             //get the user
-            using (var _uc = new UserCore())
+            using (var _uc = new UserCore(_db))
             {
                 var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-                var user = await _uc.GetCurrentUser(_db, bearerToken, GetUserTypeEnum.Invoices);
+                var user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.Invoices);
                 if (user is null)
                     return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
 
@@ -203,10 +203,10 @@
             Guid traceId = Guid.NewGuid();
 
             //get the user
-            using (var _uc = new UserCore())
+            using (var _uc = new UserCore(_db))
             {
                 var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-                var user = await _uc.GetCurrentUser(_db, bearerToken, GetUserTypeEnum.Invoices);
+                var user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.Invoices);
                 if (user is null)
                     return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
 
@@ -264,10 +264,10 @@
             Guid traceId = Guid.NewGuid();
 
             //get the user
-            using (var _uc = new UserCore())
+            using (var _uc = new UserCore(_db))
             {
                 var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-                var user = await _uc.GetCurrentUser(_db, bearerToken, GetUserTypeEnum.Invoices);
+                var user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.Invoices);
                 if (user is null)
                     return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
 

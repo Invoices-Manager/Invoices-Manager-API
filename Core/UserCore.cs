@@ -5,7 +5,14 @@ namespace Invoices_Manager_API.Core
 {
     public class UserCore : IDisposable
     {
-        public async Task<UserModel?> GetCurrentUser(DataBaseContext _db, string bearerToken, GetUserTypeEnum getStatement)
+        private readonly DataBaseContext _db;
+
+        public UserCore(DataBaseContext db)
+        {
+            _db = db;
+        }
+        
+        public async Task<UserModel?> GetCurrentUser(string bearerToken, GetUserTypeEnum getStatement)
         {
             //get from the bearer token the username
             //create jwt token
@@ -49,6 +56,9 @@ namespace Invoices_Manager_API.Core
         }
 
         public void Dispose()
-            => GC.SuppressFinalize(this);
+        {
+            _db.ChangeTracker.Clear();
+            GC.Collect();
+        }
     }
 }
