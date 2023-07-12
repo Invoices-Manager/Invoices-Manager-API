@@ -24,7 +24,7 @@ builder.Services.Configure<FormOptions>(options =>
 builder.Services.AddDbContext<DataBaseContext>(options =>
 {
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-});
+}, ServiceLifetime.Transient);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

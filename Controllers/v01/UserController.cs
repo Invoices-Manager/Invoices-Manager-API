@@ -23,23 +23,29 @@ namespace Invoices_Manager_API.Controllers.v01
         {
             //set the users traceId
             Guid traceId = Guid.NewGuid();
-            
-            // Get the bearer token from the header
-            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-            var user = await UserCore.GetCurrentUser(_db, bearerToken);
 
-            //check if the user exist
-            if (user is null)
-                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
+            //get the user
+            using (var _uc = new UserCore(_db))
+            {
+                var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+                var user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.User);
+                if (user is null)
+                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
 
-            //return the user as ok response
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was found successfully",
-                new Dictionary<string, object> {
+
+                //check if the user exist
+                if (user is null)
+                    return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
+
+                //return the user as ok response
+                return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was found successfully",
+                    new Dictionary<string, object> {
                     { "userName", user.Username },
                     { "email", user.Email },
                     { "firstName", user.FirstName },
                     { "lastName", user.LastName }
-                }));
+                    }));
+            }
 
         }
 
@@ -59,9 +65,9 @@ namespace Invoices_Manager_API.Controllers.v01
 
             //check if the user exist
             if (_db.User.Any(x => x.Username == newUser.Username))
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The user already exists", 
-                    new Dictionary<string, object> { 
-                        { "userName", newUser.Username } 
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The user already exists",
+                    new Dictionary<string, object> {
+                        { "userName", newUser.Username }
                     }));
 
             ////check if he has manipulated data
@@ -69,7 +75,7 @@ namespace Invoices_Manager_API.Controllers.v01
             //    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Invoices or BackUpInfos!"));
 
             //get a salt for the new user
-            var newSalt = Security.PasswordHasher.GetNewSalt();
+            var newSalt = PasswordHasher.GetNewSalt();
 
             //create the user
             var user = new UserModel
@@ -89,8 +95,8 @@ namespace Invoices_Manager_API.Controllers.v01
             _logger.LogInformation($"User {user.Username} was created");
 
             //return the user
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was created successfully", 
-                new Dictionary<string, object> { 
+            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was created successfully",
+                new Dictionary<string, object> {
                     { "user", user }
                 }));
         }
@@ -101,38 +107,44 @@ namespace Invoices_Manager_API.Controllers.v01
         {
             //set the users traceId
             Guid traceId = Guid.NewGuid();
-            
-            // Get the bearer token from the header
-            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-            var user = await UserCore.GetCurrentUser(_db, bearerToken);
 
-            //check if the user exist
-            if (user is null)
-                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
+            //get the user
+            using (var _uc = new UserCore(_db))
+            {
+                var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+                var user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.All);
+                if (user is null)
+                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
 
-            //clear all data from the user before deleting
-            _db.Invoice.RemoveRange(user.Invoices);
-            //_db.BackUpInfo.RemoveRange(user.BackUpInfos);
-            _db.Note.RemoveRange(user.Notebook);
-            _db.Logins.RemoveRange(user.Logins);
 
-            //remove the user from the database
-            _db.User.Remove(user);
-            await _db.SaveChangesAsync();
+                //check if the user exist
+                if (user is null)
+                    return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
 
-            //remove the user data
-            await FileCore.DeleteUserFolder(user);
+                //clear all data from the user before deleting
+                _db.Invoice.RemoveRange(user.Invoices);
+                //_db.BackUpInfo.RemoveRange(user.BackUpInfos);
+                _db.Note.RemoveRange(user.Notebook);
+                _db.Logins.RemoveRange(user.Logins);
 
-            _logger.LogInformation($"User {user.Username} was deleted");
+                //remove the user from the database
+                _db.User.Remove(user);
+                await _db.SaveChangesAsync();
 
-            //return the user as ok response
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was deleted successfully",
-                    new Dictionary<string, object> {
+                //remove the user data
+                await FileCore.DeleteUserFolder(user);
+
+                _logger.LogInformation($"User {user.Username} was deleted");
+
+                //return the user as ok response
+                return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The user was deleted successfully",
+                        new Dictionary<string, object> {
                         { "userName", user.Username },
                         { "email", user.Email },
                         { "firstName", user.FirstName },
                         { "lastName", user.LastName }
-                    }));
+                        }));
+            }
         }
 
         [Route("Login")]
@@ -141,7 +153,7 @@ namespace Invoices_Manager_API.Controllers.v01
         {
             //set the users traceId
             Guid traceId = Guid.NewGuid();
-            
+
             //check if token is empty
             if (!string.IsNullOrEmpty(newLogin.Token))
                 return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Token!"));
@@ -220,34 +232,40 @@ namespace Invoices_Manager_API.Controllers.v01
         {
             //set the users traceId
             Guid traceId = Guid.NewGuid();
-            
-            // Get the bearer token from the header
-            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-            var user = await UserCore.GetCurrentUser(_db, bearerToken);
 
-            //check if the user is correct
-            if (user is null)
-                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
+            //get the user
+            using (var _uc = new UserCore(_db))
+            {
+                string bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+                var user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.Logins);
+                if (user is null)
+                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
 
-            //check if this loginModel exist
-            var logout = _db.Logins.FirstOrDefault(x => x.Token == Hasher.GetSHA512Hash(bearerToken));
-            if (logout is null)
-                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The token does not exist",
-                    new Dictionary<string, object> {
+
+                //check if the user is correct
+                if (user is null)
+                    return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
+
+                //check if this loginModel exist
+                var logout = _db.Logins.FirstOrDefault(x => x.Token == Hasher.GetSHA512Hash(bearerToken));
+                if (logout is null)
+                    return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The token does not exist",
+                        new Dictionary<string, object> {
                         { "bearerToken", bearerToken }
-                    }));
+                        }));
 
-            //delete the login
-            _db.Logins.Remove(logout);
-            await _db.SaveChangesAsync();
+                //delete the login
+                _db.Logins.Remove(logout);
+                await _db.SaveChangesAsync();
 
-            //return the token
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The logout was successful", 
-                new Dictionary<string, object>{
+                //return the token
+                return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The logout was successful",
+                    new Dictionary<string, object>{
                     { "userName", user.Username },
                     { "email", user.Email },
                     { "bearerToken", bearerToken }
-                }));
+                    }));
+            }
         }
 
         [TypeFilter(typeof(AuthFilter))]
@@ -257,29 +275,35 @@ namespace Invoices_Manager_API.Controllers.v01
         {
             //set the users traceId
             Guid traceId = Guid.NewGuid();
-            
-            // Get the bearer token from the header
-            var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-            var user = await UserCore.GetCurrentUser(_db, bearerToken);
 
-            //check if the user is correct
-            if (user is null)
-                return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
+            //get the user
+            using (var _uc = new UserCore(_db))
+            {
+                var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
+                var user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.Logins);
+                if (user is null)
+                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
 
-            //save the count of logins
-            int loginCounts = user.Logins.Count;
 
-            //delete the login
-            _db.Logins.RemoveRange(user.Logins);
-            await _db.SaveChangesAsync();
+                //check if the user is correct
+                if (user is null)
+                    return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
 
-            //return that all logins are deleted
-            return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "All logins were deleted successfully", 
-                new Dictionary<string, object> { 
-                    { "loginCounts", loginCounts }, 
-                    { "userName", user.Username }, 
-                    { "email", user.Email } 
-                }));
+                //save the count of logins
+                int loginCounts = user.Logins.Count;
+
+                //delete the login
+                _db.Logins.RemoveRange(user.Logins);
+                await _db.SaveChangesAsync();
+
+                //return that all logins are deleted
+                return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "All logins were deleted successfully",
+                    new Dictionary<string, object> {
+                    { "loginCounts", loginCounts },
+                    { "userName", user.Username },
+                    { "email", user.Email }
+                    }));
+            }
         }
     }
 }
