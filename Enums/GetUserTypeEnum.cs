@@ -3,6 +3,7 @@
     public enum GetUserTypeEnum
     {
         All,
+        User,
         Notes,
         Invoices,
         Logins

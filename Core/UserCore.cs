@@ -12,7 +12,7 @@ namespace Invoices_Manager_API.Core
             _db = db;
         }
         
-        public async Task<UserModel?> GetCurrentUser(string bearerToken, GetUserTypeEnum getStatement)
+        public async Task<UserModel?> GetCurrentUser(string bearerToken, GetUserTypeEnum getStatement = GetUserTypeEnum.User)
         {
             //get from the bearer token the username
             //create jwt token
@@ -43,11 +43,11 @@ namespace Invoices_Manager_API.Core
                     GetUserTypeEnum.Logins => await _db.User
                                                             .Include(x => x.Logins)
                                                             .FirstOrDefaultAsync(x => x.Username == userName),
-                                                            
+
+                    GetUserTypeEnum.User => await _db.User
+                                                          .FirstOrDefaultAsync(x => x.Username == userName),
+
                     _ => await _db.User
-                                       .Include(x => x.Invoices)
-                                       .Include(x => x.Notebook)
-                                       .Include(x => x.Logins)
                                        .FirstOrDefaultAsync(x => x.Username == userName),
                 };
 
