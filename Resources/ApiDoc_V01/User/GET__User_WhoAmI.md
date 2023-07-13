@@ -41,6 +41,7 @@ Content-Type: application/json*
     "args": {
         "userName": "UserNames",
         "email": "email@example.com",
+        "salt": "kY4DRKmUexB2VxaYG66OOjwv1NxHQ5wpAy2EQOqxNy0=",
         "firstName": "FirstName",
         "lastName": "LastName"
     }
