@@ -77,6 +77,9 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
 ### Z = Minor version (small updates)
 ### W = Revision version (bug fixes)
 
+## v1.0.3.1
+- The Salt will be send at the who am i query
+
 ## v1.0.3.0
 - Ram usage improved
 - Response time improved
