@@ -5,8 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Invoices_Manager_API</RootNamespace>
-    <FileVersion>1.0.2.1</FileVersion>
-    <AssemblyVersion>1.0.2.1</AssemblyVersion>
+    <FileVersion>1.0.3.2</FileVersion>
+    <AssemblyVersion>1.0.3.2</AssemblyVersion>
     <UserSecretsId>8e8f9154-9968-4e4a-81e6-a05431d2d71a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
