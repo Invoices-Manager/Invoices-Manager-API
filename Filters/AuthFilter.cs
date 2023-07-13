@@ -34,7 +34,7 @@ namespace Invoices_Manager_API.Filters
             }
 
             //check if this bearerToken is in the db
-            if (!_db.Logins.Any(x => x.Token == Hasher.GetSHA512Hash(bearerToken)))
+            if (!_db.Logins.Any(x => x.Token == bearerToken))
             {
                 context.Result = new UnauthorizedObjectResult(ResponseMgr.CreateResponse(401, Guid.NewGuid(), "Your bearerToken is not valid! Get a new one!"));
                 return;

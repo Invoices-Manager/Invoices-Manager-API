@@ -163,10 +163,6 @@ namespace Invoices_Manager_API.Controllers.v01
             if (newLogin.Id != 0)
                 return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the ID!"));
 
-            //check if the date is empty
-            if (newLogin.CreationDate != DateTime.MinValue)
-                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the CreationDate!"));
-
             //get the user
             var user = await _db.User
                 .Include(x => x.Logins)
@@ -181,7 +177,7 @@ namespace Invoices_Manager_API.Controllers.v01
                 return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, $"The user with the username '{newLogin.Username}' is locked, because the password would be entered incorrectly three times in a row. Please contact the admin"));
 
             //check if the password is correct
-            if (!Security.PasswordHasher.VerifyPassword(newLogin.Password, user.Password))
+            if (!PasswordHasher.VerifyPassword(newLogin.Password, user.Password))
             {
                 //increase the incorrect login attempt counter
                 user.IncorrectLoginAttempts++;
@@ -205,10 +201,6 @@ namespace Invoices_Manager_API.Controllers.v01
             //add it to the user 
             user.Logins.Add(successfulLogin);
 
-            //save the jwt for the response and hash the model for the db
-            string jwt = successfulLogin.Token;
-            successfulLogin.Token = Hasher.GetSHA512Hash(jwt);
-
             //save the token
             user.Logins.Add(successfulLogin);
             await _db.SaveChangesAsync();
@@ -219,8 +211,7 @@ namespace Invoices_Manager_API.Controllers.v01
             //return the token
             return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "The login was successful",
                 new Dictionary<string, object>{
-                    { "token", jwt },
-                    { "creationDate", successfulLogin.CreationDate },
+                    { "token", successfulLogin.Token },
                     { "userName", successfulLogin.Username }
                 }
             ));
@@ -248,7 +239,7 @@ namespace Invoices_Manager_API.Controllers.v01
                     return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The user does not exist"));
 
                 //check if this loginModel exist
-                var logout = _db.Logins.FirstOrDefault(x => x.Token == Hasher.GetSHA512Hash(bearerToken));
+                var logout = _db.Logins.FirstOrDefault(x => x.Token == bearerToken);
                 if (logout is null)
                     return new NotFoundObjectResult(ResponseMgr.CreateResponse(404, traceId, "The token does not exist",
                         new Dictionary<string, object> {
