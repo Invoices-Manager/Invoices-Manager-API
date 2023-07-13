@@ -42,6 +42,7 @@ namespace Invoices_Manager_API.Controllers.v01
                     new Dictionary<string, object> {
                     { "userName", user.Username },
                     { "email", user.Email },
+                    {"salt", user.Salt },
                     { "firstName", user.FirstName },
                     { "lastName", user.LastName }
                     }));
