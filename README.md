@@ -64,7 +64,7 @@ has a cloud function, and this is the API you need to host it.
 ✔️ Easy to host  
 ✔️ Easy Documentation  
 ✔️ Postman Collection  
-✔️ BackUp, Invoice, Note & User function  
+✔️ Invoice, Note & User function  
 
 ## API documentation:
 Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/master/Resources/ApiDoc_V01/APIDOC_V01.md) to see the documentation
@@ -78,9 +78,9 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
 ### W = Revision version (bug fixes)
 
 ## v1.0.3.2 (HOTFIX)
--Tokens are no longer hashed, because it broked the logic for "DeleteOldTokens"
--Hasher class was deleted, is no longer needed
--From the db of it the table "logins" has changed (CreationDate is useless, is already in the token)
+-Tokens are no longer hashed, because it broked the logic for "DeleteOldTokens"  
+-Hasher class was deleted, is no longer needed  
+-From the db of it the table "logins" has changed (CreationDate is useless, is already in the token)  
   
         !!! THAT MEANS YOU HAVE TO DO STEP 13. and 14. FROM THE LIST ABOVE, IF YOU UPDATE UR API  !!!
     !!! name the migrations something with "version1032" but not "firstInit", because this migration already exists. !!!
