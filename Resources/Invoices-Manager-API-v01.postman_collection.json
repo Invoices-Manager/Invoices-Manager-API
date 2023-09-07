@@ -134,7 +134,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"NewInvoice\": {\r\n    \"CaptureDate\": \"2022-01-01T00:00:00Z\",\r\n    \"ExhibitionDate\": \"2022-01-01T00:00:00Z\",\r\n    \"Reference\": \"Ref-123\",\r\n    \"DocumentType\": \"PDF\",\r\n    \"Organization\": \"ABC Inc.\",\r\n    \"InvoiceNumber\": \"INV-123\",\r\n    \"Tags\": [\r\n      \"Tag1\",\r\n      \"Tag2\"\r\n    ],\r\n    \"ImportanceState\": 1,\r\n    \"MoneyState\": 1,\r\n    \"PaidState\": 1,\r\n    \"MoneyTotal\": 100.00\r\n  },\r\n  \"InvoiceFileBase64\": \"SGFsbG8=\"\r\n}",
+							"raw": "{\r\n  \"NewInvoice\": {\r\n      //no matter what, best a hash from the file, and no special characters\r\n    \"fileId\": \"asd435fgddxf34456456fgdh\",\r\n    \"CaptureDate\": \"2022-01-01T00:00:00Z\",\r\n    \"ExhibitionDate\": \"2022-01-01T00:00:00Z\",\r\n    \"Reference\": \"Ref-123\",\r\n    \"DocumentType\": \"PDF\",\r\n    \"Organization\": \"ABC Inc.\",\r\n    \"InvoiceNumber\": \"INV-123\",\r\n    \"Tags\": [\r\n      \"Tag1\",\r\n      \"Tag2\"\r\n    ],\r\n    \"ImportanceState\": 1,\r\n    \"MoneyState\": 1,\r\n    \"PaidState\": 1,\r\n    \"MoneyTotal\": \"100.00\"\r\n  },\r\n  \"InvoiceFileBase64\": \"SGFsbG8=\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -168,7 +168,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 4,\r\n    \"captureDate\": \"2023-04-28T19:21:14.4365823+02:00\",\r\n    \"exhibitionDate\": \"2022-01-01T00:00:00Z\",\r\n    \"reference\": \"Ref-123\",\r\n    \"documentType\": \"PDF\",\r\n    \"organization\": \"ABC Inc.\",\r\n    \"invoiceNumber\": \"INV-123\",\r\n    \"tags\": [\r\n        \"Tag1\",\r\n        \"Tag22222\"\r\n    ],\r\n    \"tagsAsString\": \"Tag1;Tag2\",\r\n    \"importanceState\": 1,\r\n    \"moneyState\": 1,\r\n    \"paidState\": 1,\r\n    \"moneyTotal\": 10000\r\n}",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"captureDate\": \"2023-04-28T19:21:14.4365823+02:00\",\r\n    \"exhibitionDate\": \"2022-01-01T00:00:00Z\",\r\n    \"reference\": \"Ref-123\",\r\n    \"documentType\": \"PDF\",\r\n    \"organization\": \"ABC Inc.\",\r\n    \"invoiceNumber\": \"INV-123\",\r\n    \"tags\": [\r\n        \"Tag1\",\r\n        \"Tag22222\"\r\n    ],\r\n    \"tagsAsString\": \"Tag1;Tag2\",\r\n    \"importanceState\": 1,\r\n    \"moneyState\": 1,\r\n    \"paidState\": 1,\r\n    \"moneyTotal\": \"10000\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -488,18 +488,15 @@
 				},
 				{
 					"name": "Login",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"auth": {
 							"type": "noauth"
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"UserNames\",\r\n    \"password\": \"UserPassword\"\r\n}",
+							"raw": "{\r\n    \"username\": \"UserName\",\r\n    \"password\": \"UserPassword\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

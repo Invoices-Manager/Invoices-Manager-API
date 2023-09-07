@@ -34,6 +34,7 @@
 
         [Required(ErrorMessage = "PaidState is missing!")]
         public PaidStateEnum PaidState { get; set; } = default!;  // { Paid , Unpaid,  NoInvoice }
-        public double MoneyTotal { get; set; }
+        
+        public  string? MoneyTotal { get; set; }
     }
 }

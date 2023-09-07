@@ -56,7 +56,7 @@ Content-Type: application/json*
             "importanceState": 1,
             "moneyState": 1,
             "paidState": 1,
-            "moneyTotal": 10000
+            "moneyTotal": "10000"
         }
     }
 }

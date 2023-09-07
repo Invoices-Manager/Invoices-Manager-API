@@ -136,9 +136,9 @@
                 if (newInvoice.Id != 0)
                     return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the Id!", new Dictionary<string, object> { { "id", newInvoice.Id } }));
 
-                //check if the user already set an file id
-                if (!string.IsNullOrEmpty(newInvoice.FileID))
-                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the FileID!", new Dictionary<string, object> { { "fileId", newInvoice.FileID } }));
+                //check if the user has set a file id
+                if (String.IsNullOrWhiteSpace(newInvoice.FileID))
+                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You have to set an File Id!", new Dictionary<string, object> { { "fileId", newInvoice.FileID } }));
 
                 //check if the enums are valid
                 if (!Enum.IsDefined(typeof(ImportanceStateEnum), newInvoice.ImportanceState))
@@ -166,25 +166,15 @@
                 if (invoiceFileInfo.Length > 32 * 1024 * 1024)
                     return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The file is too big (32 mb)"));
 
-                //get the file id
-                var fileId = Security.FileHasher.GetMd5Hash(invoiceFileInfo.FullName);
-
                 //check if the file id already exist
-                if (user.Invoices.Any(x => x.FileID == fileId))
+                if (user.Invoices.Any(x => x.FileID == newInvoice.FileID))
                     return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The file already exist"));
 
-                //check if the file id is valid
-                if (string.IsNullOrEmpty(fileId))
-                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The file id is not valid"));
-
                 //move the file to the new path
-                FileCore.MoveInvoiceFile_IntoUserFolder(invoiceFileInfo.FullName, fileId, user);
+                FileCore.MoveInvoiceFile_IntoUserFolder(invoiceFileInfo.FullName, newInvoice.FileID, user);
 
                 //set the creation date
                 newInvoice.CaptureDate = DateTime.Now;
-
-                //set the file id
-                newInvoice.FileID = fileId;
 
                 //add the invoices to the db
                 user.Invoices.Add(newInvoice);
@@ -192,7 +182,6 @@
 
                 //return the invoices
                 return new CreatedAtActionResult("Get", "Invoice", new { id = newInvoice.Id }, ResponseMgr.CreateResponse(201, traceId, "Invoice created successfully", new Dictionary<string, object> { { "invoice", newInvoice } }));
-
             }
         }
 
@@ -239,6 +228,10 @@
 
                 //get the invoice id
                 int index = user.Invoices.FindIndex(x => x.Id == editInvoice.Id);
+
+                //check if the file id was manipulated
+                if (user.Invoices[index].FileID != editInvoice.FileID)
+                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The file id was manipulated", new Dictionary<string, object> { { "fileId", editInvoice.FileID } }));
 
                 //create a new invoice and delete the old one
                 editInvoice.Id = user.Invoices[index].Id;

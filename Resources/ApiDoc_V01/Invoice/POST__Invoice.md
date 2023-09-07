@@ -22,6 +22,8 @@
 ```json
 {
   "NewInvoice": {
+     //no matter what, best a hash from the file, and no special characters
+    "fileId": "asd435fgddxf34456456fgdh",
     "CaptureDate": "2022-01-01T00:00:00Z",
     "ExhibitionDate": "2022-01-01T00:00:00Z",
     "Reference": "Ref-123",
@@ -35,7 +37,7 @@
     "ImportanceState": 1,
     "MoneyState": 1,
     "PaidState": 1,
-    "MoneyTotal": 100.00
+    "MoneyTotal": "100.00"
   },
   "InvoiceFileBase64": "SGFsbG8="
 }
@@ -72,7 +74,7 @@ Content-Type: application/json*
             "importanceState": 1,
             "moneyState": 1,
             "paidState": 1,
-            "moneyTotal": 100
+            "moneyTotal": "100"
         }
     }
 }
