@@ -229,6 +229,10 @@
                 //get the invoice id
                 int index = user.Invoices.FindIndex(x => x.Id == editInvoice.Id);
 
+                //check if the file id was manipulated
+                if (user.Invoices[index].FileID != editInvoice.FileID)
+                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The file id was manipulated", new Dictionary<string, object> { { "fileId", editInvoice.FileID } }));
+
                 //create a new invoice and delete the old one
                 editInvoice.Id = user.Invoices[index].Id;
                 editInvoice.FileID = user.Invoices[index].FileID;
