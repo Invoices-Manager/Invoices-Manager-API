@@ -85,6 +85,9 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
         !!! THAT MEANS YOU HAVE TO DO STEP 13. and 14. FROM THE LIST ABOVE, IF YOU UPDATE UR API  !!!
     !!! name the migrations something with "version1032" but not "firstInit", because this migration already exists. !!!
 
+## v1.0.3.3
+- FIX: The API needs a FileID from the client and should not create it by itself
+
 ## v1.0.3.1
 - The Salt will be send at the who am i query
 
