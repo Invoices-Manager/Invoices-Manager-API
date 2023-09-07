@@ -86,12 +86,12 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
         !!! name the migrations something with "version1040" but not "firstInit", because this migration already exists. !!!
 
 ## v1.0.3.2 (HOTFIX)
--Tokens are no longer hashed, because it broked the logic for "DeleteOldTokens"  
--Hasher class was deleted, is no longer needed  
--The table "logins" has changed (CreationDate is useless, is already in the token)  
+- Tokens are no longer hashed, because it broked the logic for "DeleteOldTokens"  
+- Hasher class was deleted, is no longer needed  
+- The table "logins" has changed (CreationDate is useless, is already in the token)  
 
         !!! THAT MEANS YOU HAVE TO DO STEP 13. and 14. FROM THE LIST ABOVE, IF YOU UPDATE UR API  !!!
-    !!! name the migrations something with "version1032" but not "firstInit", because this migration already exists. !!!
+        !!! name the migrations something with "version1040" but not "firstInit", because this migration already exists. !!!
 
 ## v1.0.3.3
 - FIX: The API needs a FileID from the client and should not create it by itself
