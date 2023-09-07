@@ -83,7 +83,7 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
 - The API Doc is updated belong to the new changes
 
         !!! THAT MEANS YOU HAVE TO DO STEP 13. and 14. FROM THE LIST ABOVE, IF YOU UPDATE UR API  !!!
-    !!! name the migrations something with "version1040" but not "firstInit", because this migration already exists. !!!
+        !!! name the migrations something with "version1040" but not "firstInit", because this migration already exists. !!!
 
 ## v1.0.3.2 (HOTFIX)
 -Tokens are no longer hashed, because it broked the logic for "DeleteOldTokens"  
