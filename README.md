@@ -80,6 +80,7 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
 
 ## v1.0.5.0
 - add a function to allow or disallow the creation of new users (in appsettings.json)
+- add a dockerfile (for those who want to docker it)
 
 ## v1.0.4.0
 - The money total is now a string instant of a double (for the encryption)
