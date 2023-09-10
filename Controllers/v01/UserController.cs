@@ -56,6 +56,10 @@ namespace Invoices_Manager_API.Controllers.v01
             //set the users traceId
             Guid traceId = Guid.NewGuid();
 
+            //check if that creating of new users is allowed
+            if (!_config.GetValue<bool>("AllowNewUsers"))
+                return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "Creating new users is not allowed"));
+
             //check if the id is empty
             if (newUser.Id != 0)
                 return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "You are not allowed to set the ID! You get one assigned"));

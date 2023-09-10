@@ -65,6 +65,7 @@ has a cloud function, and this is the API you need to host it.
 ✔️ Easy Documentation  
 ✔️ Postman Collection  
 ✔️ Invoice, Note & User function  
+✔️ Disallow to create new users (in appsettings.json)
 
 ## API documentation:
 Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/master/Resources/ApiDoc_V01/APIDOC_V01.md) to see the documentation
@@ -76,6 +77,9 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
 ### Y = Minor version (big updates)
 ### Z = Minor version (small updates)
 ### W = Revision version (bug fixes)
+
+## v1.0.5.0
+- add a function to allow or disallow the creation of new users (in appsettings.json)
 
 ## v1.0.4.0
 - The money total is now a string instant of a double (for the encryption)
