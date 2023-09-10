@@ -77,6 +77,9 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
 ### Z = Minor version (small updates)
 ### W = Revision version (bug fixes)
 
+## v1.0.5.0
+- add a function to allow or disallow the creation of new users (in appsettings.json)
+
 ## v1.0.4.0
 - The money total is now a string instant of a double (for the encryption)
 - The Postman is updated belong to the new changes
