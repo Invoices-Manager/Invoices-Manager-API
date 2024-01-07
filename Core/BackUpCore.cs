@@ -26,12 +26,13 @@ namespace Invoices_Manager_API.Core
              2024-01-07_13-44_BackUp_From_{user.Username}.zip
              |-- Notebooks.json
              |-- Invoices.json
-             |-- Invoices
+             |-- salt
+             |~~ Invoices
                  |-- *hashFromFile*.pdf
                  |-- *hashFromFile*.pdf
                  |-- *hashFromFile*.pdf
         */
-        
+
         public Task GenerateBackUp()
         {
             //get data
@@ -42,6 +43,7 @@ namespace Invoices_Manager_API.Core
             //save files to cache
             File.WriteAllText(Path.Combine(cacheFolderPath, "Notebooks.json"), userNotebookAsJson);
             File.WriteAllText(Path.Combine(cacheFolderPath, "Invoices.json"), userInvoicesAsJson);
+            File.WriteAllText(Path.Combine(cacheFolderPath, "salt"), _user.Salt);
 
             foreach (InvoiceModel invoice in _user.Invoices)
             {
@@ -58,6 +60,7 @@ namespace Invoices_Manager_API.Core
                 //add files
                 zip.CreateEntryFromFile(Path.Combine(cacheFolderPath, "Notebooks.json"), "Notebooks.json");
                 zip.CreateEntryFromFile(Path.Combine(cacheFolderPath, "Invoices.json"), "Invoices.json");
+                zip.CreateEntryFromFile(Path.Combine(cacheFolderPath, "salt"), "salt");
 
                 //add files to folders
                 foreach (var filePath in filePaths)
