@@ -16,7 +16,7 @@
 
 
         [HttpGet]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get()
         {
             //set the users traceId
             Guid traceId = Guid.NewGuid();
@@ -26,15 +26,18 @@
             using (var _uc = new UserCore(_db))
             {
                 var bearerToken = HttpContext.Request.Headers["bearerToken"].ToString();
-                user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.Invoices);
+                user = await _uc.GetCurrentUser(bearerToken, GetUserTypeEnum.All);
+                
                 if (user is null)
                     return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "An error occured while getting the user, faulty bearer token"));
 
-                //check if there is an id
-                if (id == 0 || id < 0)
-                    return new BadRequestObjectResult(ResponseMgr.CreateResponse(400, traceId, "The id is not valid", new Dictionary<string, object> { { "id", id } }));
-
-           
+                await using (BackUpCore _bc = new BackUpCore(user))
+                {
+                    await _bc.GenerateBackUp();
+                    string backUpBase64 =  _bc.GetBackUpBase64();
+                 
+                    return new OkObjectResult(ResponseMgr.CreateResponse(200, traceId, "BackUp generated", new Dictionary<string, object> { { "base64", backUpBase64 } }));
+                }
             }
         }
     }
