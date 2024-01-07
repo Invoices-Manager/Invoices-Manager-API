@@ -1,0 +1,23 @@
+{
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=;Port=3306;Database=InvoicesMgr;Uid=;Pwd=;"
+  },
+  "JwtKeys": {
+    "SymmetricSecurityKey": "", // Symmetric security key for JWT
+    "Issuer": "", // Issuer of the JWT
+    "Audience": "", // Audience of the JWT
+    "Expiration": 30 //The login token has a durability of 30 minutes
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning" //The Output from the console will be only warnings and errors
+    }
+  },
+  "Kestrel": {
+    "Limits": {
+      "MaxRequestBodySize": 33554432 //That are 32mb
+    }
+  },
+  "AllowNewUsers": true //Allow new users to sign up
+}
