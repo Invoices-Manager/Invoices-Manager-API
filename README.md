@@ -78,7 +78,7 @@ Press [here](https://github.com/Invoices-Manager/Invoices-Manager-API/blob/maste
 ### Z = Minor version (small updates)
 ### W = Revision version (bug fixes)
 
-## 1.0.5.1
+## v1.0.5.1
 - Security Patch (Dependency System.IdentityModel.Tokens.Jwt(CVE-2024-21319))
 
 ## v1.0.5.0
