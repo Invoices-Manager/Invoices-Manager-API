@@ -1,6 +1,6 @@
 ﻿namespace Invoices_Manager_API.Core
 {
-    internal class FileCore
+    public class FileCore
     {
         private const string SYS_PATH = @"Data\";
         private static readonly string CACHE_PATH = Path.Combine(SYS_PATH, "Cache");
@@ -136,6 +136,34 @@
 
             //return the file path
             return Path.Combine(filePath, fileID + ".bkup");
+        }
+
+        public static string GetUserCachePath(UserModel user, params string[] paths)
+        {
+            string[] allPaths = new string[2 + paths.Length];
+            allPaths[0] = CACHE_PATH;
+            allPaths[1] = user.Username;
+
+            Array.Copy(paths, 0, allPaths, 2, paths.Length);
+
+            string directoryPath = Path.Combine(allPaths);
+            Directory.CreateDirectory(directoryPath);
+
+            return directoryPath;
+        }
+        
+        public static string GetUserDataPath(UserModel user, params string[] paths)
+        {
+            string[] allPaths = new string[2 + paths.Length];
+            allPaths[0] = USERDATA_PATH;
+            allPaths[1] = user.Username;
+
+            Array.Copy(paths, 0, allPaths, 2, paths.Length);
+
+            string directoryPath = Path.Combine(allPaths);
+            Directory.CreateDirectory(directoryPath);
+
+            return directoryPath;
         }
     }
 }
